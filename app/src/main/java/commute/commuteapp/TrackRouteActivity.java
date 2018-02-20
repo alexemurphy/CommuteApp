@@ -62,7 +62,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //Turn route measuring off to start with
         measureRoute = false;
         //Setup thread
-        trackingThread = new Thread(TrackRouteActivity.this);
+        //TODO Turn on
+        //trackingThread = new Thread(TrackRouteActivity.this);
 
         //Show the activity map GUI
         setContentView(R.layout.activity_trackmap);
@@ -87,7 +88,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 measureRoute = true;
 
                 //Start Thread
-                trackingThread.start();
+                //TODO Turn on
+                //trackingThread.start();
 
                 //TODO Move this to a new section!
                 addToRoute();
