@@ -13,23 +13,11 @@
         tools:layout_editor_absoluteY="96dp">
 
         <Button
-            android:id="@+id/Statistics"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/RouteMap"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="27dp"
-            android:text="@string/route_statistics"
-            tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="118dp" />
-
-        <Button
             android:id="@+id/RouteMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/TrackMap"
-            android:layout_alignBottom="@+id/TrackMap"
-            android:layout_alignEnd="@+id/textView"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:text="@string/route_map"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="118dp" />
@@ -38,9 +26,9 @@
             android:id="@+id/TrackMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/textView"
-            android:layout_below="@+id/textView"
-            android:layout_marginTop="47dp"
+            android:layout_above="@+id/RouteMap"
+            android:layout_alignStart="@+id/RouteMap"
+            android:layout_marginBottom="23dp"
             android:text="@string/track_map"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="118dp" />

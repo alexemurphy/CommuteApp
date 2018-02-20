@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -28,7 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 
-public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyCallback, Runnable{
+public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     //Location Permissions
     private static final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -46,9 +47,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     //Route
     Route trackedRoute = new Route();
     boolean measureRoute;
-    Thread trackingThread;
-    //The time in milliseconds between each node in the route being added
-    int routeTimeDelay = 5000;
+
 
     //-----------------------------------Setup-----------------------------------\\
 
@@ -61,9 +60,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
         //Turn route measuring off to start with
         measureRoute = false;
-        //Setup thread
-        //TODO Turn on
-        //trackingThread = new Thread(TrackRouteActivity.this);
 
         //Show the activity map GUI
         setContentView(R.layout.activity_trackmap);
@@ -80,42 +76,33 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      */
     private void init(){
         //Create a button to navigate to the map
-        Button start = (Button) findViewById(R.id.startRoute);
+        final Button start = (Button) findViewById(R.id.startRoute);
         start.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //Turn route measuring on
-                measureRoute = true;
-
-                //Start Thread
-                //TODO Turn on
-                //trackingThread.start();
-
-                //TODO Move this to a new section!
-                addToRoute();
-            }
-        });
-
-        //Create a button to navigate to the map
-        final Button pause = (Button) findViewById(R.id.pauseRoute);
-        pause.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                //TODO Add resume
-                //Pause
-                if(measureRoute = true) {
+                if(measureRoute == true){
                     measureRoute = false;
-                    //Change button text
-                    pause.setText("Resume");
+                    start.setText("Resume");
                 }
-                //Resume
-                else{
+                else {
+                    //Turn route measuring on
                     measureRoute = true;
-                    trackingThread.start();
-                    //Change button text
-                    pause.setText("Pause");
-                }
 
+                    //Create a handler to run the add route method every 5 seconds
+                    final Handler handler = new Handler();
+                    final int delay = 5000; //milliseconds
+
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            Log.d("Handler: ", "Add To Route");
+                            addToRoute();
+                            handler.postDelayed(this, delay);
+                        }
+                    }, delay);
+
+                    start.setText("Pause");
+
+                }
             }
         });
 
@@ -124,7 +111,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         stop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO Do other stuff before moving back to main menu
+                //TODO Do other stuff before moving back to main menu - e.g. save the route
                 //Stop route tracking
                 measureRoute = false;
 
@@ -192,19 +179,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         }
     }
 
-    @Override
-    /**
-     * Multithreading to allow the route to be updated every 5 seconds automatically
-     */
-    public void run() {
-        //TODO Error Not on same thread
-        while(measureRoute){
-            addToRoute();
-            //Wait 5 seconds before getting a new measurement
-            try {Thread.sleep(routeTimeDelay);} catch (InterruptedException e) {}
-        }
-    }
-
     //-----------------------------------Map Functions-----------------------------------\\
 
     /**
@@ -256,7 +230,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                             //Set the currentLocation variable
                             deviceLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
-                            //Move the camera to this new result
+                            //Move the camera to the current position
                             moveCamera(deviceLocation, 15f);
                         }
                     }
