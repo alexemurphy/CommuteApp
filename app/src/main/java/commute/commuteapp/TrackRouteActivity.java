@@ -229,6 +229,9 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
                             //Set the currentLocation variable
                             deviceLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+                            //Move the camera to the current position
+                            moveCamera(deviceLocation, 15f);
                         }
                     }
                 });
