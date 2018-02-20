@@ -53,13 +53,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button statsView = (Button) findViewById(R.id.Statistics);
-        statsView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                //TODO Do Something
-            }
-        });
 
     }
 

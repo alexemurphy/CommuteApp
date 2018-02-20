@@ -88,7 +88,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     //Turn route measuring on
                     measureRoute = true;
 
-
                     //Create a handler to run the add route method every 5 seconds
                     final Handler handler = new Handler();
                     final int delay = 5000; //milliseconds
