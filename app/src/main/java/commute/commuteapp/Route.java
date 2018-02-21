@@ -4,15 +4,6 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
-//TODO List
-/**
- * Save data to file
- * Open data from file
- */
-
-
-
-
 /**
  * The class that tracks the route and times between each
  */
@@ -25,12 +16,23 @@ public class Route {
     //The number of nodes in the route
     int index;
 
+
+
+    //Basic Information
+    String JourneyName;
+    String routeName;
+    String description;
+    String transportMethod;
+
     /**
      * Constructor class
      */
     public Route(){
         index = -1;
     }
+
+
+    //-----------------------------------Accessors & Mutators-----------------------------------\\
 
     /**
      * Mutator to add a new node to the route
@@ -72,6 +74,62 @@ public class Route {
     public int getNumberOfNodes(){
         //Add 1 to get number of nodes in the route,  not the index
         return index + 1;
+    }
+
+    /**
+     * Mutator to set route routeName
+     * @param nm : The routeName of the route
+     */
+    public void setRouteName(String nm){
+        routeName = nm;
+    }
+
+    /**
+     * Accessor to get the route routeName
+     * @return : The routeName of the route
+     */
+    public String getRouteName(){
+        return routeName;
+    }
+
+    public String getJourneyName() {
+        return JourneyName;
+    }
+
+    public void setJourneyName(String journeyName) {
+        JourneyName = journeyName;
+    }
+
+    /**
+     * Mutator to set route description
+     * @param desc : The description of the route
+     */
+    public void setDescription(String desc){
+        description = desc;
+    }
+
+    /**
+     * Accessor to get the route description
+     * @return : The description of the route
+     */
+    public String getDescription(){
+        return description;
+    }
+
+    /**
+     * Mutator to set transport method
+     * @param tm : The transport method of the route
+     */
+    public void setTransportMethod(String tm){
+        transportMethod = tm;
+    }
+
+    /**
+     * Accessor to get the transport method
+     * @return : The transport method of the route
+     */
+    public String getTransportMethod(){
+        return transportMethod;
     }
 
 }

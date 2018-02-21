@@ -95,7 +95,9 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             Log.d("Handler: ", "Add To Route");
-                            addToRoute();
+                            if(measureRoute) {
+                                addToRoute();
+                            }
                             handler.postDelayed(this, delay);
                         }
                     }, delay);
@@ -114,6 +116,9 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 //TODO Do other stuff before moving back to main menu - e.g. save the route
                 //Stop route tracking
                 measureRoute = false;
+
+                //Save the route
+                new SaveRouteActivity(trackedRoute);
 
                 //Return to main menu
                 Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
@@ -192,10 +197,10 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     * Add a marker into a specified location with a specified name
+     * Add a marker into a specified location with a specified routeName
      *
      * @param latitudeAndLongitude : The latitude and longitude of the marker
-     * @param title : The name of the marker
+     * @param title : The routeName of the marker
      */
     private void addMarker(LatLng latitudeAndLongitude, String title){
         mMap.addMarker(new MarkerOptions().position(latitudeAndLongitude).title(title));
