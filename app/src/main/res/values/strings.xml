@@ -4,11 +4,23 @@
     <string name="google_maps_API_key">AIzaSyC8-FdbBLdSxUj7EVtpGvsyKWTMvB7JDcE</string>
 
     //GUI
+    //Start Screen
     <string name="commute_app">Commute App</string>
     <string name="route_map">Route Map</string>
     <string name="track_map">Track Map</string>
+
+    //Route Tracking
     <string name="start">Start</string>
     <string name="pause">Pause</string>
     <string name="stop">Stop</string>
-    <string name="route_statistics">Route Statistics</string>
+
+    //Route Saving
+    <string name="saveRouteTitle">Save Route</string>
+    <string name="journey">Journey</string>
+    <string name="route">Route</string>
+    <string name="save">Save</string>
+    <string name="transport_method">Transport Method</string>
+    <string name="e_g_bus">E.g. Bus</string>
+    <string name="description">Description</string>
+
 </resources>
