@@ -350,6 +350,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * Fill the journey dropdown menu with every journey in the database
      */
     private void setJourneys(){
+        //TODO Allow Custom Journey Enter
         ArrayList<String> journeys= saveTrip.getJourneyList();
 
         //Add all elements to the list
@@ -364,6 +365,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * @param journeyName : The name of the journey
      */
     private void setRoutes(String journeyName){
+        //TODO Allow Custom Route Enter
         ArrayList<String> routes = saveTrip.getRouteList(journeyName);
         //Add all elements to the list
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routes);
