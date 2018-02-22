@@ -1,5 +1,6 @@
 package commute.commuteapp;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -26,7 +27,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -45,8 +45,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     //The Map
     private GoogleMap mMap;
 
-    //Current Location
-    private FusedLocationProviderClient mFusedLocationProviderClient;
     private LatLng deviceLocation;
 
     //Route
@@ -60,9 +58,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     //-----------------------------------Setup-----------------------------------\\
 
     @Override
-    /**
-     * Main method of class
-     */
     protected void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
@@ -84,13 +79,14 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      */
     private void init(){
         //Create a button to navigate to the map
-        final Button start = (Button) findViewById(R.id.startRoute);
+        final Button start = findViewById(R.id.startRoute);
         start.setOnClickListener(new View.OnClickListener(){
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view){
-                if(measureRoute == true){
+                if(measureRoute){
                     measureRoute = false;
-                    start.setText("Resume");
+                    start.setText(R.string.resumeText);
                 }
                 else {
                     //Turn route measuring on
@@ -118,7 +114,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         //Create a button to navigate to the map
-        Button stop = (Button) findViewById(R.id.stopRoute);
+        Button stop = findViewById(R.id.stopRoute);
         stop.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -148,9 +144,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
-    /**
-     * When the map has been created, setup the properties
-     */
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
@@ -208,15 +201,10 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     * Add a marker into a specified location with a specified routeName
-     *
-     * @param latitudeAndLongitude : The latitude and longitude of the marker
-     * @param title : The routeName of the marker
+     * Add a polyline to the map
+     * @param latitudeAndLongitudeStart : The start latitude and longitude of the coordinate
+     * @param latitudeAndLongitudeEnd : The end latitude and longitude of the coordinate
      */
-    private void addMarker(LatLng latitudeAndLongitude, String title){
-        mMap.addMarker(new MarkerOptions().position(latitudeAndLongitude).title(title));
-    }
-
     private void addPolyline(LatLng latitudeAndLongitudeStart, LatLng latitudeAndLongitudeEnd){
         mMap.addPolyline(new PolylineOptions().add(latitudeAndLongitudeStart, latitudeAndLongitudeEnd).width(5).color(Color.BLUE));
 
@@ -226,7 +214,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * Get the device's current location, display it on the map and move the camera to the location
      */
     private void getDeviceLocation(){
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        FusedLocationProviderClient mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         try{
             //If location permissions have been granted
@@ -239,7 +227,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     @Override
                     public void onComplete(@NonNull Task task) {
                         //If the location exists, plot it on the map
-                        if(task.isSuccessful() && task.getResult() != null){
+                        if (task.isSuccessful() && task.getResult() != null) {
                             //Location Found
                             Location currentLocation = (Location) task.getResult();
 
@@ -253,7 +241,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 });
             }
         }
-        catch(SecurityException e){
+        catch(SecurityException ignored){
         }
 
     }
@@ -288,16 +276,13 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     @Override
-    /**
-     * Check for permissions granted & initialise the map if the permissions have been granted
-     */
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         mLocationPermissionsGranted = false;
 
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
+                    for (int ignored : grantResults) {
                         if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                             return;
                         }
@@ -324,7 +309,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         setJourneys();
 
         //Setup set journey button
-        final Button setJourney = (Button) findViewById(R.id.setJourney);
+        final Button setJourney = findViewById(R.id.setJourney);
         setJourney.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -334,7 +319,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         });
 
         //Setup save button
-        final Button save = (Button) findViewById(R.id.saveButton);
+        final Button save = findViewById(R.id.saveButton);
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){

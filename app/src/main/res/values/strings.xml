@@ -23,5 +23,6 @@
     <string name="e_g_bus">E.g. Bus</string>
     <string name="name">Trip Name</string>
     <string name="set_journey">Set Journey</string>
+    <string name="resumeText">Resume</string>
 
 </resources>
