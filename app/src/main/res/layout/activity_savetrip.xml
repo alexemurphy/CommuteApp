@@ -48,6 +48,16 @@
             android:layout_below="@+id/journeyName"
             android:layout_marginTop="11dp" />
 
+        <Button
+            android:id="@+id/setJourney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/routeDropdown"
+            android:layout_alignStart="@+id/saveButton"
+            android:layout_marginStart="11dp"
+            android:text="@string/set_journey"
+            android:textSize="8sp" />
+
         <TextView
             android:id="@+id/routeName"
             android:layout_width="wrap_content"

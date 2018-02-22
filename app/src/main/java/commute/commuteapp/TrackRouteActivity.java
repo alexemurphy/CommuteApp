@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,6 +30,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
 
 
 public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyCallback{
@@ -49,6 +52,9 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     //Route
     Route trackedRoute = new Route();
     boolean measureRoute;
+
+    //Trip save instance
+    SaveTripActivity saveTrip;
 
 
     //-----------------------------------Setup-----------------------------------\\
@@ -122,6 +128,9 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
                 //Stop the timer
                 trackedRoute.setElapsedTime();
+
+                //Instantiate a save trip
+                saveTrip = new SaveTripActivity(trackedRoute);
 
                 //Load the save menu
                 saveMenuSetup();
@@ -311,6 +320,19 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //Display the save screen
         setContentView(R.layout.activity_savetrip);
 
+        //Setup Journey View
+        setJourneys();
+
+        //Setup set journey button
+        final Button setJourney = (Button) findViewById(R.id.setJourney);
+        setJourney.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //Set the routes compared to the journey
+                setRoutes(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+            }
+        });
+
         //Setup save button
         final Button save = (Button) findViewById(R.id.saveButton);
         save.setOnClickListener(new View.OnClickListener(){
@@ -319,8 +341,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 //Get all of the data values from the GUI
                 getAllValues();
 
-                //Save the route
-                new SaveTripActivity(trackedRoute).saveRoute();
+                //Save trip
+                saveTrip.saveTrip();
 
                 //Return to main menu
                 Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
@@ -337,6 +359,31 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         trackedRoute.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
         trackedRoute.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
         trackedRoute.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+    }
+
+    /**
+     * Fill the journey dropdown menu with every journey in the database
+     */
+    private void setJourneys(){
+        ArrayList<String> journeys= saveTrip.getJourneyList();
+
+        //Add all elements to the list
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeys);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) findViewById(R.id.journeyDropdown)).setAdapter(adapter);
+    }
+
+    /**
+     * Set the route dropdown menu with every route in the specified journey
+     *
+     * @param journeyName : The name of the journey
+     */
+    private void setRoutes(String journeyName){
+        ArrayList<String> routes = saveTrip.getRouteList(journeyName);
+        //Add all elements to the list
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) findViewById(R.id.routeDropdown)).setAdapter(adapter);
     }
 
 }
