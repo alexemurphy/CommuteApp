@@ -130,40 +130,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     * Setup the save menu to save the current route
-     */
-    private void saveMenuSetup(){
-        //Display the save screen
-        setContentView(R.layout.activity_savetrip);
-
-        //Setup save button
-        final Button save = (Button) findViewById(R.id.saveButton);
-        save.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                getAllValues();
-
-                //Save the route
-                new SaveTripActivity(trackedRoute).saveRoute();
-
-                //Return to main menu
-                Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    /**
-     * Gets all of the values from the saveTripMenu
-     */
-    private void getAllValues(){
-        trackedRoute.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
-        trackedRoute.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
-        trackedRoute.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-        trackedRoute.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
-    }
-
-    /**
      * Initialise the map
      */
     private void initMap(){
@@ -271,8 +237,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                             //Set the currentLocation variable
                             deviceLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
-                            //Move the camera to the current position
-                            moveCamera(deviceLocation, 15f);
+                            //Move the camera to the current position using the current zoom level
+                            moveCamera(deviceLocation, mMap.getCameraPosition().zoom);
                         }
                     }
                 });
@@ -336,4 +302,41 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             }
         }
     }
+
+//-----------------------------------Save Trip-----------------------------------\\
+    /**
+     * Setup the save menu to save the current route
+     */
+    private void saveMenuSetup(){
+        //Display the save screen
+        setContentView(R.layout.activity_savetrip);
+
+        //Setup save button
+        final Button save = (Button) findViewById(R.id.saveButton);
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //Get all of the data values from the GUI
+                getAllValues();
+
+                //Save the route
+                new SaveTripActivity(trackedRoute).saveRoute();
+
+                //Return to main menu
+                Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    /**
+     * Gets all of the values from the saveTripMenu
+     */
+    private void getAllValues(){
+        trackedRoute.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
+        trackedRoute.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
+        trackedRoute.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+        trackedRoute.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+    }
+
 }
