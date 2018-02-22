@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -87,6 +89,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 else {
                     //Turn route measuring on
                     measureRoute = true;
+                    trackedRoute.setStartTime();
 
                     //Create a handler to run the add route method every 5 seconds
                     final Handler handler = new Handler();
@@ -117,14 +120,47 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 //Stop route tracking
                 measureRoute = false;
 
+                //Stop the timer
+                trackedRoute.setElapsedTime();
+
+                //Load the save menu
+                saveMenuSetup();
+            }
+        });
+    }
+
+    /**
+     * Setup the save menu to save the current route
+     */
+    private void saveMenuSetup(){
+        //Display the save screen
+        setContentView(R.layout.activity_savetrip);
+
+        //Setup save button
+        final Button save = (Button) findViewById(R.id.saveButton);
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                getAllValues();
+
                 //Save the route
-                new SaveRouteActivity(trackedRoute);
+                new SaveTripActivity(trackedRoute).saveRoute();
 
                 //Return to main menu
                 Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Gets all of the values from the saveTripMenu
+     */
+    private void getAllValues(){
+        trackedRoute.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
+        trackedRoute.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
+        trackedRoute.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+        trackedRoute.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
     }
 
     /**

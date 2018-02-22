@@ -1,8 +1,10 @@
 package commute.commuteapp;
 
-import com.google.android.gms.maps.model.LatLng;
 
+import java.util.Calendar;
+import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * The class that tracks the route and times between each
@@ -16,12 +18,15 @@ public class Route {
     //The number of nodes in the route
     int index;
 
+    //Timing
+    long startTime;
+    long elapsedTime;
+
 
 
     //Basic Information
     String JourneyName;
     String routeName;
-    String description;
     String transportMethod;
 
     /**
@@ -101,22 +106,6 @@ public class Route {
     }
 
     /**
-     * Mutator to set route description
-     * @param desc : The description of the route
-     */
-    public void setDescription(String desc){
-        description = desc;
-    }
-
-    /**
-     * Accessor to get the route description
-     * @return : The description of the route
-     */
-    public String getDescription(){
-        return description;
-    }
-
-    /**
      * Mutator to set transport method
      * @param tm : The transport method of the route
      */
@@ -132,4 +121,34 @@ public class Route {
         return transportMethod;
     }
 
+    /**
+     * Set the start time to be the current time
+     */
+    public void setStartTime(){
+        startTime = System.nanoTime();
+    }
+
+    /**
+     * Get the start time in nano seconds
+     * @return : The start time
+     */
+    public float getStartTime(){
+        return startTime;
+    }
+
+    /**
+     * Set the elapsed time using the start time and the current time
+     */
+    public void setElapsedTime(){
+        //Find the elapsed time in seconds
+        elapsedTime = (startTime - System.nanoTime()) * 1000000000;
+    }
+
+    /**
+     * Get the elapsed time that is stored in seconds
+     * @return : The elapsed time stored in seconds
+     */
+    public float getElapsedTime(){
+        return elapsedTime;
+    }
 }
