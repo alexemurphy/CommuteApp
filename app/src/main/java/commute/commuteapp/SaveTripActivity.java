@@ -1,10 +1,6 @@
 package commute.commuteapp;
 
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 import java.util.ArrayList;
 
@@ -13,18 +9,18 @@ import java.util.ArrayList;
  */
 
 public class SaveTripActivity extends AppCompatActivity {
-    Route routeToSave;
+    Trip tripToSave;
 
     /**
      * Constructor
-     * @param inputRoute : The route to be input
+     * @param inputTrip : The route to be input
      */
-    public SaveTripActivity(Route inputRoute){
-        routeToSave = inputRoute;
+    public SaveTripActivity(Trip inputTrip){
+        tripToSave = inputTrip;
     }
 
     public void saveTrip(){
-        //TODO Save the data from Route class
+        //TODO Save the data from Trip class
     }
 
     public ArrayList<String> getJourneyList(){

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * The class that tracks the route and times between each
  */
-public class Route {
+public class Trip {
     //The route with the latitude and longitude measurements
     private ArrayList<LatLng> routeMap= new ArrayList<LatLng>();
     //The time distances between each LatLng
@@ -28,11 +28,12 @@ public class Route {
     String JourneyName;
     String routeName;
     String transportMethod;
+    int routeID;
 
     /**
      * Constructor class
      */
-    public Route(){
+    public Trip(){
         index = -1;
     }
 
@@ -152,3 +153,18 @@ public class Route {
         return elapsedTime;
     }
 }
+
+public int getRouteID() {
+
+    //TODO
+
+    //ALSO ADD MUTATOR
+
+}
+
+public String getLatLangFileLocation(){
+
+
+    //TODO
+}
+

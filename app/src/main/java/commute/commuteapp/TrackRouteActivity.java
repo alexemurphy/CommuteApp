@@ -47,8 +47,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
     private LatLng deviceLocation;
 
-    //Route
-    Route trackedRoute = new Route();
+    //Trip
+    Trip trackedTrip = new Trip();
     boolean measureRoute;
 
     //Trip save instance
@@ -91,7 +91,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 else {
                     //Turn route measuring on
                     measureRoute = true;
-                    trackedRoute.setStartTime();
+                    trackedTrip.setStartTime();
 
                     //Create a handler to run the add route method every 5 seconds
                     final Handler handler = new Handler();
@@ -99,7 +99,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            Log.d("Handler: ", "Add To Route");
+                            Log.d("Handler: ", "Add To Trip");
                             if(measureRoute) {
                                 addToRoute();
                             }
@@ -123,10 +123,10 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 measureRoute = false;
 
                 //Stop the timer
-                trackedRoute.setElapsedTime();
+                trackedTrip.setElapsedTime();
 
                 //Instantiate a save trip
-                saveTrip = new SaveTripActivity(trackedRoute);
+                saveTrip = new SaveTripActivity(trackedTrip);
 
                 //Load the save menu
                 saveMenuSetup();
@@ -174,15 +174,15 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //Update the device's current location
         getDeviceLocation();
         //TODO change the time to be meaningful
-        trackedRoute.addNode(deviceLocation, 0);
+        trackedTrip.addNode(deviceLocation, 0);
         Log.d("addToRoute", "deviceLocation = " + deviceLocation.latitude + " , " + deviceLocation.longitude);
 
         //Create Polyline from the current location to the past location
         //If there is at least 1 other node in the route
-        if(trackedRoute.getNumberOfNodes() > 1) {
+        if(trackedTrip.getNumberOfNodes() > 1) {
             //Get the last node
-            int count = trackedRoute.getNumberOfNodes();
-            LatLng prevNode = trackedRoute.getLatitudeAndLongitude(count-2);
+            int count = trackedTrip.getNumberOfNodes();
+            LatLng prevNode = trackedTrip.getLatitudeAndLongitude(count-2);
             //Create the Polyline
             addPolyline(new LatLng(deviceLocation.latitude, deviceLocation.longitude), new LatLng(prevNode.latitude, prevNode.longitude));
         }
@@ -340,10 +340,10 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * Gets all of the values from the saveTripMenu
      */
     private void getAllValues(){
-        trackedRoute.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
-        trackedRoute.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
-        trackedRoute.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-        trackedRoute.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+        trackedTrip.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
+        trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
+        trackedTrip.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+        trackedTrip.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
     }
 
     /**
@@ -365,7 +365,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * @param journeyName : The name of the journey
      */
     private void setRoutes(String journeyName){
-        //TODO Allow Custom Route Enter
+        //TODO Allow Custom Trip Enter
         ArrayList<String> routes = saveTrip.getRouteList(journeyName);
         //Add all elements to the list
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routes);
