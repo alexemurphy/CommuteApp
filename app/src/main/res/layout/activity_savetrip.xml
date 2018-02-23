@@ -49,14 +49,22 @@
             android:layout_marginTop="11dp" />
 
         <Button
+            android:id="@+id/newJourney"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/tripSave"
+            android:layout_below="@+id/journeyDropdown"
+            android:text="@string/new_journey"
+            android:textSize="12sp" />
+
+        <Button
             android:id="@+id/setJourney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/routeDropdown"
-            android:layout_alignStart="@+id/saveButton"
-            android:layout_marginStart="11dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/journeyDropdown"
             android:text="@string/set_journey"
-            android:textSize="8sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/routeName"
@@ -75,6 +83,15 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/routeName"
             android:layout_marginTop="13dp" />
+
+        <Button
+            android:id="@+id/newRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/routeDropdown"
+            android:text="@string/new_route"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/name"
