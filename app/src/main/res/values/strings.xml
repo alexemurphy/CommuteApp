@@ -24,5 +24,7 @@
     <string name="name">Trip Name</string>
     <string name="set_journey">Set Journey</string>
     <string name="resumeText">Resume</string>
+    <string name="new_journey">New Journey</string>
+    <string name="new_route">New Route</string>
 
 </resources>
