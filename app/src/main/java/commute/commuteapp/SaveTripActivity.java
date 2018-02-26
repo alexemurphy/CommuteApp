@@ -28,18 +28,20 @@ public class SaveTripActivity extends AppCompatActivity {
 
     /**
      * Get an array of all journey names
+     * [[ID, String]]
      */
-    public ArrayList<String> getJourneyList(){
+    public ArrayList<ArrayList<String>> getJourneyList(){
         //TODO Get a list of the journeys from the save
-        return new ArrayList<String>();
+        return new ArrayList<ArrayList<String>>();
     }
 
     /**
-     * Get an array of all Route names
+     * Get an array of all Route names from the specific ID
+     * [[ID, String]]
      */
-    public ArrayList<String> getRouteList(String journey){
+    public ArrayList<ArrayList<String>> getRouteList(String ID){
         //TODO Get a list of the routes from a specific journey
-        return new ArrayList<String>();
+        return new ArrayList<ArrayList<String>>();
     }
 
     /**

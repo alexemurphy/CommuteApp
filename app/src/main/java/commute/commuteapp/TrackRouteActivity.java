@@ -57,6 +57,11 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     //Trip save instance
     SaveTripActivity saveTrip;
 
+    //Journeys and routes list
+    ArrayList<ArrayList<String>> journeys;
+    ArrayList<ArrayList<String>> routes;
+
+
 
     //-----------------------------------Setup-----------------------------------\\
 
@@ -326,7 +331,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View view){
                 //Set the routes compared to the journey
-                setRoutes(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+                String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+                setRoutes(ID);
             }
         });
 
@@ -355,6 +361,22 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 startActivity(intent);
             }
         });
+    }
+
+    /**
+     * Gets the ID from the String List using the name presented to the user
+     *
+     * @param mainList : The list that stores the IDs and the names
+     * @param target : The String of the name
+     * @return  : The ID or null if the name cannot be found
+     */
+    private String getIDFromName(ArrayList<ArrayList<String>> mainList, String target){
+        for(int i = 0; i < mainList.size(); i++){
+            if(mainList.get(i).get(1).equals(target)){
+                return mainList.get(i).get(1);
+            }
+        }
+        return null;
     }
 
     /**
@@ -422,29 +444,35 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      */
     private void getAllValues(){
         //TODO Fix this
-        /*
-        //Journey Name
-        trackedTrip.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+        //Journey ID
+        String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+        trackedTrip.setJourneyID(new Integer(ID));
 
-        //Route Name
-        trackedTrip.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+        ID = getIDFromName(routes, ((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+        //Route ID
+        trackedTrip.setRouteID(new Integer(ID));
 
         //Trip Name
         trackedTrip.setTripName(((EditText)findViewById(R.id.tripSave)).getText().toString());
 
         //Transport Method
         trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
-        */
     }
 
     /**
      * Fill the journey dropdown menu with every journey in the database
      */
     private void setJourneys(){
-        ArrayList<String> journeys= saveTrip.getJourneyList();
+        journeys = saveTrip.getJourneyList();
+
+        //Get all of the strings of the journey
+        ArrayList<String> journeyStrings = new ArrayList<String>();
+        for(int i = 0; i < journeys.size(); i++){
+            journeyStrings.add(journeys.get(i).get(1));
+        }
 
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeys);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeyStrings);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.journeyDropdown)).setAdapter(adapter);
     }
@@ -452,12 +480,18 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     /**
      * Set the route dropdown menu with every route in the specified journey
      *
-     * @param journeyName : The name of the journey
+     * @param ID : The ID of the journey
      */
-    private void setRoutes(String journeyName){
-        ArrayList<String> routes = saveTrip.getRouteList(journeyName);
+    private void setRoutes(String ID){
+        routes = saveTrip.getRouteList(ID);
+
+        //Get all of the strings of the journey
+        ArrayList<String> routeStrings = new ArrayList<String>();
+        for(int i = 0; i < routes.size(); i++){
+            routeStrings.add(routes.get(i).get(1));
+        }
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routeStrings);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.routeDropdown)).setAdapter(adapter);
     }
