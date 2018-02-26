@@ -345,7 +345,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View view){
                 //Get all of the data values from the GUI
-                //getAllValues();
+                getAllValues();
 
                 //Save trip
                 saveTrip.saveTrip();
@@ -423,10 +423,17 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     private void getAllValues(){
         //TODO Fix this
         /*
-        trackedTrip.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
-        trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
+        //Journey Name
         trackedTrip.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+
+        //Route Name
         trackedTrip.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+
+        //Trip Name
+        trackedTrip.setTripName(((EditText)findViewById(R.id.tripSave)).getText().toString());
+
+        //Transport Method
+        trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
         */
     }
 
@@ -434,7 +441,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * Fill the journey dropdown menu with every journey in the database
      */
     private void setJourneys(){
-        //TODO Allow Custom Journey Enter
         ArrayList<String> journeys= saveTrip.getJourneyList();
 
         //Add all elements to the list
@@ -449,7 +455,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * @param journeyName : The name of the journey
      */
     private void setRoutes(String journeyName){
-        //TODO Allow New Trip Enter
         ArrayList<String> routes = saveTrip.getRouteList(journeyName);
         //Add all elements to the list
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routes);
