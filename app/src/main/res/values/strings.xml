@@ -28,5 +28,7 @@
     <string name="new_route">New Route</string>
     <string name="enter_journey_name">Enter Journey Name</string>
     <string name="enter_route_name">Enter Route Name</string>
+    <string name="back">Back</string>
+    <string name="load_journey">Load Journey</string>
 
 </resources>

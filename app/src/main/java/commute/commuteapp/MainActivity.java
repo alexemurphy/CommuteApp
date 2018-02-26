@@ -49,7 +49,9 @@ public class MainActivity extends AppCompatActivity {
         routeMap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO Do Something
+                //Change to journey view
+                Intent intent = new Intent(MainActivity.this, RouteDisplay.class);
+                startActivity(intent);
             }
         });
 

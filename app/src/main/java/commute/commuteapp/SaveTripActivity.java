@@ -12,6 +12,11 @@ public class SaveTripActivity extends AppCompatActivity {
     Trip tripToSave;
 
     /**
+     * Emptu Constructor
+     */
+    public SaveTripActivity(){}
+
+    /**
      * Constructor
      * @param inputTrip : The route to be input
      */
