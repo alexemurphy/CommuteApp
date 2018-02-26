@@ -37,7 +37,13 @@ public class SaveTripActivity extends AppCompatActivity {
      */
     public ArrayList<ArrayList<String>> getJourneyList(){
         //TODO Get a list of the journeys from the save
-        return new ArrayList<ArrayList<String>>();
+        ArrayList<ArrayList<String>> test =  new ArrayList<>();
+        ArrayList<String> t1 =  new ArrayList<String>();
+
+        t1.add("1");
+        t1.add("Hello world");
+        test.add(t1);
+        return test;
     }
 
     /**
