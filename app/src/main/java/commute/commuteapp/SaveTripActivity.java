@@ -33,6 +33,14 @@ public class SaveTripActivity extends AppCompatActivity {
         return new ArrayList<String>();
     }
 
+    public void setNewJourneyName(String name){
+        //TODO Set a new journey with the name given
+    }
+
+    public void setNewRouteName(String name){
+        //TODO Set a new trip with the name given
+    }
+
 
 
 }

@@ -71,8 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/journeyName"
-            android:layout_below="@+id/journeyDropdown"
-            android:layout_marginTop="13dp"
+            android:layout_below="@+id/newJourney"
+            android:layout_marginTop="12dp"
             android:text="@string/route"
             android:textSize="18sp" />
 
@@ -98,8 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/routeName"
-            android:layout_below="@+id/routeDropdown"
-            android:layout_marginTop="20dp"
+            android:layout_below="@+id/newRoute"
             android:text="@string/name"
             android:textSize="18sp" />
 
@@ -107,8 +106,8 @@
             android:id="@+id/tripSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/transportMethod"
             android:layout_alignStart="@+id/name"
-            android:layout_below="@+id/name"
             android:ems="10"
             android:inputType="text"
             android:labelFor="@+id/tripSave" />
@@ -129,7 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/saveButton"
             android:layout_alignStart="@+id/transportMethod"
-            android:layout_marginBottom="60dp"
+            android:layout_marginBottom="17dp"
             android:ems="10"
             android:hint="@string/e_g_bus"
             android:inputType="text" />
