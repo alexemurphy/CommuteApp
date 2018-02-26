@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="383dp"
+        android:layout_width="375dp"
         android:layout_height="567dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -44,7 +44,7 @@
             android:id="@+id/journeyDropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
+            android:layout_alignEnd="@+id/newRoute"
             android:layout_below="@+id/journeyName"
             android:layout_marginTop="11dp" />
 
