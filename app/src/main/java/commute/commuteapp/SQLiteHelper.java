@@ -6,8 +6,14 @@ package commute.commuteapp;
  */
 
 import android.content.Context;
+import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.Cursor;
+import android.util.Log;
+
+import java.util.List;
+import java.util.LinkedList;
 
 public class SQLiteHelper  extends SQLiteOpenHelper{
 
@@ -107,13 +113,130 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
         values.put(KEY_LATLANGFILE, trip.getLatLangFileLocation());// get author
 
         // 3. insert
-        db.insert(TABLE_BOOKS, // table
+        db.insert(TABLE_TRIP, // table
                 null, //nullColumnHack
                 values); // key/value -> keys = column names/ values = column values
 
         // 4. close
         db.close();
     }
+
+    public Trip getTrip(int id){
+
+        // 1. get reference to readable DB
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // 2. build query
+        Cursor cursor =
+                db.query(TABLE_TRIP, // a. table
+                        COLUMNS_TRIP, // b. column names
+                        " id = ?", // c. selections
+                        new String[] { String.valueOf(id) }, // d. selections args
+                        null, // e. group by
+                        null, // f. having
+                        null, // g. order by
+                        null); // h. limit
+
+        // 3. if we got results get the first one
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        // 4. build book object
+        Trip trip = new Trip();
+        trip.setID(Integer.parseInt(cursor.getString(0)));
+        trip.setStartTime(Long.parseLong(cursor.getString(1)));
+        trip.setElapsedTime(Long.parseLong(cursor.getString(2)));
+        trip.setRouteID(Integer.parseInt(cursor.getString(3)));
+        trip.setLatLangFileLocation(cursor.getString(4));
+
+        //log
+        //Log.d("getBook("+id+")", book.toString());
+
+        // 5. return book
+        return trip;
+    }
+
+
+    public List<Trip> getAllTrips() {
+        List<Trip> trips = new LinkedList<Trip>();
+
+        // 1. build the query
+        String query = "SELECT  * FROM " + TABLE_TRIP;
+
+        // 2. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        // 3. go over each row, build book and add it to list
+        //Trip trip = null;
+
+        if (cursor.moveToFirst()) {
+            do {
+                Trip trip = new Trip();
+                trip.setID(Integer.parseInt(cursor.getString(0)));
+                trip.setStartTime(Long.parseLong(cursor.getString(1)));
+                trip.setElapsedTime(Long.parseLong(cursor.getString(2)));
+                trip.setRouteID(Integer.parseInt(cursor.getString(3)));
+                trip.setLatLangFileLocation(cursor.getString(4));
+
+
+                // Add book to books
+                trips.add(trip);
+            } while (cursor.moveToNext());
+        }
+
+        Log.d("getAllBooks()", trips.toString());
+
+        // return books
+        return trips;
+    }
+
+    public int updateTrip(Trip trip) {
+
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. create ContentValues to add key "column"/value
+        ContentValues values = new ContentValues();
+        values.put(KEY_TIMESTAMP, trip.getStartTime()); // get title
+        values.put(KEY_TIMETAKEN, trip.getElapsedTime());
+        values.put(KEY_ROUTEID, trip.getRouteID());
+        values.put(KEY_LATLANGFILE, trip.getLatLangFileLocation());// get author
+
+        // 3. updating row
+        int i = db.update(TABLE_TRIP, //table
+                values, // column/value
+                KEY_ID+" = ?", // selections
+                new String[] { String.valueOf(trip.getID()) }); //selection args
+
+        // 4. close
+        db.close();
+
+        return i;
+
+    }
+
+    public void deleteTrip(Trip trip) {
+
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. delete
+        db.delete(TABLE_TRIP, //table name
+                KEY_ID+" = ?",  // selections
+                new String[] { String.valueOf(trip.getID()) }); //selections args
+
+        // 3. close
+        db.close();
+
+        //log
+        Log.d("deleteBook", trip.toString());
+
+    }
+
+
+
+
 
 
 

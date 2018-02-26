@@ -1,10 +1,10 @@
 package commute.commuteapp;
 
 
-import java.util.Calendar;
+
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
-import java.util.Date;
+
 
 /**
  * The class that tracks the route and times between each
@@ -22,13 +22,13 @@ public class Trip {
     long startTime;
     long elapsedTime;
 
-
-
     //Basic Information
-    String JourneyName;
-    String routeName;
-    String transportMethod;
     int routeID;
+    int ID;
+
+
+
+    String LatLangFileLocation;
 
     /**
      * Constructor class
@@ -82,51 +82,38 @@ public class Trip {
         return index + 1;
     }
 
-    /**
-     * Mutator to set route routeName
-     * @param nm : The routeName of the route
-     */
-    public void setRouteName(String nm){
-        routeName = nm;
+
+    public int getID() {
+        return ID;
+
+
     }
 
-    /**
-     * Accessor to get the route routeName
-     * @return : The routeName of the route
-     */
-    public String getRouteName(){
-        return routeName;
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
-    public String getJourneyName() {
-        return JourneyName;
+
+    public void setLatLangFileLocation(String latLangFileLocation) {
+        LatLangFileLocation = latLangFileLocation;
     }
 
-    public void setJourneyName(String journeyName) {
-        JourneyName = journeyName;
+    public String getLatLangFileLocation() {
+        return LatLangFileLocation;
+
     }
 
-    /**
-     * Mutator to set transport method
-     * @param tm : The transport method of the route
-     */
-    public void setTransportMethod(String tm){
-        transportMethod = tm;
-    }
 
-    /**
-     * Accessor to get the transport method
-     * @return : The transport method of the route
-     */
-    public String getTransportMethod(){
-        return transportMethod;
-    }
 
     /**
      * Set the start time to be the current time
      */
     public void setStartTime(){
         startTime = System.nanoTime();
+    }
+
+    public void setStartTime(long startTime1) {
+        startTime = startTime1;
     }
 
     /**
@@ -145,6 +132,11 @@ public class Trip {
         elapsedTime = (startTime - System.nanoTime()) * 1000000000;
     }
 
+    public void setElapsedTime(long elapsedTime1) {
+
+        elapsedTime = elapsedTime1;
+    }
+
     /**
      * Get the elapsed time that is stored in seconds
      * @return : The elapsed time stored in seconds
@@ -152,19 +144,19 @@ public class Trip {
     public float getElapsedTime(){
         return elapsedTime;
     }
-}
+
 
 public int getRouteID() {
 
-    //TODO
-
-    //ALSO ADD MUTATOR
+   return routeID;
 
 }
 
-public String getLatLangFileLocation(){
+public void setRouteID(int routeID1){
+
+    routeID = routeID1;
+}
 
 
-    //TODO
 }
 

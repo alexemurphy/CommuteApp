@@ -324,7 +324,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View view){
                 //Get all of the data values from the GUI
-                getAllValues();
+                //getAllValues();
 
                 //Save trip
                 saveTrip.saveTrip();
@@ -339,12 +339,12 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     /**
      * Gets all of the values from the saveTripMenu
      */
-    private void getAllValues(){
+   /* private void getAllValues(){
         trackedTrip.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
         trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
         trackedTrip.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
         trackedTrip.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
-    }
+    }*/
 
     /**
      * Fill the journey dropdown menu with every journey in the database
