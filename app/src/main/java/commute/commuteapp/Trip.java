@@ -15,7 +15,7 @@ public class Trip {
 
 
     //The number of nodes in the route
-    int index;
+    int index = -1;
 
     //Timing
     long startTime;
@@ -36,7 +36,8 @@ public class Trip {
      * Constructor class
      */
     public Trip(){
-        index = -1;
+
+
     }
 
 
@@ -168,24 +169,17 @@ public class Trip {
         routeID = routeID1;
     }
 
-    public int getJourneyID() {
-        return journeyID;
-    }
+
 
     public void setJourneyID(int journeyID) {
         this.journeyID = journeyID;
-    }
-    public String getTripName() {
-        return tripName;
     }
 
     public void setTripName(String tripName) {
         this.tripName = tripName;
     }
 
-    public String getTransportMethod() {
-        return TransportMethod;
-    }
+
 
     public void setTransportMethod(String transportMethod) {
         TransportMethod = transportMethod;

@@ -1,5 +1,7 @@
 package commute.commuteapp;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 
 /**
@@ -13,6 +15,7 @@ public class Route {
     private int journeyID;
     private float distance;
     private String transportType;
+
 
     public int getID(){
 

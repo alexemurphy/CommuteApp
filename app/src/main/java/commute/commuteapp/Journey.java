@@ -1,6 +1,6 @@
 package commute.commuteapp;
 
-import java.util.ArrayList;
+
 
 /**
  * Created by alexmurphy on 23/02/2018.
@@ -11,6 +11,7 @@ public class Journey {
     private int ID;
     private String destination;
     private String origin;
+
 
     public int getID(){
 
@@ -48,12 +49,7 @@ public class Journey {
 
     }
 
-    public ArrayList<String> getAllRoutes(){
 
-        //TODO access database and fetch all routes with this journey ID
-
-        return null;
-    }
 
 
     

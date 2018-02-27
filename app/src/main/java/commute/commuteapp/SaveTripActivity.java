@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class SaveTripActivity extends AppCompatActivity {
     Trip tripToSave;
-    SQLiteHelper SQLiteHelper;
+    SQLiteHelper SQLiteHelper = new SQLiteHelper(this);
 
     /**
      * Constructor
@@ -26,7 +26,7 @@ public class SaveTripActivity extends AppCompatActivity {
      * Interact with the SQLiteHelper to save the trip
      */
     public void saveTrip(){
-        //TODO work out how trip will be passed in.
+
 
 
         SQLiteHelper.addTrip(tripToSave);
@@ -89,7 +89,7 @@ public class SaveTripActivity extends AppCompatActivity {
 
     }
 
-    /**
+    /** //TODO REMOVE THIS
      * Store the name of a new journey
      *
      * @param name : The name of the journey
@@ -98,7 +98,7 @@ public class SaveTripActivity extends AppCompatActivity {
         //TODO Set a new journey with the name given
     }
 
-    /**
+    /** //TODO REMOVE THIS
      * Store the name of a new route
      *
      * @param name : The name of the route
