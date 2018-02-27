@@ -1,5 +1,7 @@
 package commute.commuteapp;
 
+import java.util.ArrayList;
+
 /**
  * Created by alexmurphy on 23/02/2018.
  */
@@ -7,7 +9,6 @@ package commute.commuteapp;
 public class Journey {
 
     private int ID;
-    private String name;
     private String destination;
     private String origin;
 
@@ -22,16 +23,7 @@ public class Journey {
         ID = IDIn;
     }
 
-    public String getName(){
 
-        return name;
-    }
-
-    public void setName(String nameIn){
-
-        name = nameIn;
-
-    }
 
     public String getOrigin() {
 
@@ -54,6 +46,13 @@ public class Journey {
 
         destination = destinationIn;
 
+    }
+
+    public ArrayList<String> getAllRoutes(){
+
+        //TODO access database and fetch all routes with this journey ID
+
+        return null;
     }
 
 

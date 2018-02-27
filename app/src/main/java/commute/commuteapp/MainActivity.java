@@ -4,11 +4,13 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,10 +26,18 @@ public class MainActivity extends AppCompatActivity {
         //Set the layout to be the main menu
         setContentView(R.layout.activity_main);
 
+
+
         //If the google play service is available
         if(checkGoogleServiceVersion()){
             init();
         }
+
+
+
+
+
+
     }
 
     /**

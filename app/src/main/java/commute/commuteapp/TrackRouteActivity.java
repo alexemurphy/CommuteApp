@@ -1,6 +1,8 @@
 package commute.commuteapp;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -13,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +56,11 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
     //Trip save instance
     SaveTripActivity saveTrip;
+
+    //Journeys and routes list
+    ArrayList<ArrayList<String>> journeys;
+    ArrayList<ArrayList<String>> routes;
+
 
 
     //-----------------------------------Setup-----------------------------------\\
@@ -127,7 +135,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
                 //Instantiate a save trip
                 saveTrip = new SaveTripActivity(trackedTrip);
-
+                saveTrip.saveTrip();
                 //Load the save menu
                 saveMenuSetup();
             }
@@ -174,7 +182,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //Update the device's current location
         getDeviceLocation();
         //TODO change the time to be meaningful
-        trackedTrip.addNode(deviceLocation, 0);
+        trackedTrip.addNode(deviceLocation);
         Log.d("addToRoute", "deviceLocation = " + deviceLocation.latitude + " , " + deviceLocation.longitude);
 
         //Create Polyline from the current location to the past location
@@ -308,13 +316,32 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //Setup Journey View
         setJourneys();
 
+        //Setup new journey button
+        final Button newJourney = findViewById(R.id.newJourney);
+        newJourney.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+            showJourneyInputBox();
+            }
+        });
+
         //Setup set journey button
         final Button setJourney = findViewById(R.id.setJourney);
         setJourney.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 //Set the routes compared to the journey
-                setRoutes(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+                String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+                setRoutes(ID);
+            }
+        });
+
+        //Setup new journey button
+        final Button newRoute = findViewById(R.id.newRoute);
+        newRoute.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                showRouteInputBox();
             }
         });
 
@@ -324,7 +351,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View view){
                 //Get all of the data values from the GUI
-                //getAllValues();
+                getAllValues();
 
                 //Save trip
                 saveTrip.saveTrip();
@@ -337,24 +364,115 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
+     * Gets the ID from the String List using the name presented to the user
+     *
+     * @param mainList : The list that stores the IDs and the names
+     * @param target : The String of the name
+     * @return  : The ID or null if the name cannot be found
+     */
+    private String getIDFromName(ArrayList<ArrayList<String>> mainList, String target){
+        for(int i = 0; i < mainList.size(); i++){
+            if(mainList.get(i).get(1).equals(target)){
+                return mainList.get(i).get(1);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Show a popup for entering a new journey name
+     */
+    private void showJourneyInputBox(){
+        //Setup the alert view
+        LayoutInflater layoutInflater = LayoutInflater.from(TrackRouteActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.activity_newjourney, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TrackRouteActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText journeyName = promptView.findViewById(R.id.journeyName);
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        saveTrip.setNewJourneyName(journeyName.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    /**
+     * Show a popup for entering a new route name
+     */
+    private void showRouteInputBox(){
+        //Setup the alert view
+        LayoutInflater layoutInflater = LayoutInflater.from(TrackRouteActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.activity_newroute, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TrackRouteActivity.this);
+        alertDialogBuilder.setView(promptView);
+
+        final EditText routeName = promptView.findViewById(R.id.routeName);
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        saveTrip.setNewRouteName(routeName.getText().toString());
+                    }
+                })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    /**
      * Gets all of the values from the saveTripMenu
      */
-   /* private void getAllValues(){
-        trackedTrip.setRouteName(((EditText)findViewById(R.id.tripSave)).getText().toString());
+    private void getAllValues(){
+        //TODO Fix this
+        //Journey ID
+        String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+        trackedTrip.setJourneyID(new Integer(ID));
+
+        ID = getIDFromName(routes, ((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+        //Route ID
+        trackedTrip.setRouteID(new Integer(ID));
+
+        //Trip Name
+        trackedTrip.setTripName(((EditText)findViewById(R.id.tripSave)).getText().toString());
+
+        //Transport Method
         trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
-        trackedTrip.setJourneyName(((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-        trackedTrip.setRouteName(((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
-    }*/
+    }
 
     /**
      * Fill the journey dropdown menu with every journey in the database
      */
     private void setJourneys(){
-        //TODO Allow Custom Journey Enter
-        ArrayList<String> journeys= saveTrip.getJourneyList();
+        journeys = saveTrip.getJourneyList();
+
+        //Get all of the strings of the journey
+        ArrayList<String> journeyStrings = new ArrayList<String>();
+        for(int i = 0; i < journeys.size(); i++){
+            journeyStrings.add(journeys.get(i).get(1));
+        }
 
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeys);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeyStrings);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.journeyDropdown)).setAdapter(adapter);
     }
@@ -362,13 +480,18 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     /**
      * Set the route dropdown menu with every route in the specified journey
      *
-     * @param journeyName : The name of the journey
+     * @param ID : The ID of the journey
      */
-    private void setRoutes(String journeyName){
-        //TODO Allow Custom Trip Enter
-        ArrayList<String> routes = saveTrip.getRouteList(journeyName);
+    private void setRoutes(String ID){
+        routes = saveTrip.getRouteList(ID);
+
+        //Get all of the strings of the journey
+        ArrayList<String> routeStrings = new ArrayList<String>();
+        for(int i = 0; i < routes.size(); i++){
+            routeStrings.add(routes.get(i).get(1));
+        }
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routeStrings);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         ((Spinner) findViewById(R.id.routeDropdown)).setAdapter(adapter);
     }

@@ -22,8 +22,11 @@ public class Trip {
     long elapsedTime;
 
     //Basic Information
+    int journeyID;
     int routeID;
     int ID;
+    String tripName;
+    String TransportMethod;
 
 
 
@@ -48,13 +51,19 @@ public class Trip {
     /**
      * Mutator to add a new node to the route
      *
-     * @param latitudeAndLonitude : The latitude and lonitude (LatLng) of the new node
-     * @param time : The time from the last node collection
+     * @param latitudeAndLongitude : The latitude and lonitude (LatLng) of the new node
+     *
      */
-    public void addNode(LatLng latitudeAndLonitude, Integer time){
-        routeMap.add(latitudeAndLonitude);
-
+    public void addNode(LatLng latitudeAndLongitude){
+        routeMap.add(latitudeAndLongitude);
         index++;
+    }
+
+    public void setLatLang(ArrayList<LatLng> LLIn){
+
+        routeMap = LLIn;
+
+
     }
 
     /**
@@ -148,16 +157,39 @@ public class Trip {
     }
 
 
-public int getRouteID() {
+    public int getRouteID() {
 
-   return routeID;
+       return routeID;
 
-}
+    }
 
-public void setRouteID(int routeID1){
+    public void setRouteID(int routeID1){
 
-    routeID = routeID1;
-}
+        routeID = routeID1;
+    }
+
+    public int getJourneyID() {
+        return journeyID;
+    }
+
+    public void setJourneyID(int journeyID) {
+        this.journeyID = journeyID;
+    }
+    public String getTripName() {
+        return tripName;
+    }
+
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
+    }
+
+    public String getTransportMethod() {
+        return TransportMethod;
+    }
+
+    public void setTransportMethod(String transportMethod) {
+        TransportMethod = transportMethod;
+    }
 
 
 }
