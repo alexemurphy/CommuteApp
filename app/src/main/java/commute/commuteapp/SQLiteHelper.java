@@ -12,6 +12,12 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 
@@ -48,10 +54,12 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
     private static final String[] COLUMNS_ROUTE = {KEY_ID,KEY_JOURNEYID,KEY_DISTANCE,KEY_TRANSPORT_TYPE};
 
     private static final String[] COLUMNS_TRIP = {KEY_ID,KEY_ROUTEID,KEY_TIMESTAMP,KEY_LATLANGFILE, KEY_TIMETAKEN};
-
+    Context c;
 
     public SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        c = context;
+
     }
 
     @Override
@@ -102,15 +110,34 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
     public void addTrip(Trip trip){
 
 
-        // 1. get reference to writable DB
+        /*
+        Getting the ID for the next trip to be added for the filename
+        1. build the query
+        */
+        String query = "SELECT * FROM " + TABLE_TRIP +" ORDER BY column DESC LIMIT 1";
+
+        // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        trip.setID(Integer.parseInt(cursor.getString(0)) + 1);
+
+
+        //Saving LatandLangs to file.
+
+        String filename = saveLatLangFile(trip);
+        trip.setLatLangFileLocation(filename);
+
+
 
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
-        values.put(KEY_TIMESTAMP, trip.getStartTime()); // get title
-        values.put(KEY_TIMETAKEN, trip.getElapsedTime());
         values.put(KEY_ROUTEID, trip.getRouteID());
-        values.put(KEY_LATLANGFILE, trip.getLatLangFileLocation());// get author
+        values.put(KEY_TIMESTAMP, trip.getStartTime()); // get title
+        values.put(KEY_LATLANGFILE, trip.getLatLangFileLocation());
+        values.put(KEY_TIMETAKEN, trip.getElapsedTime());
+
+       // get author
 
         // 3. insert
         db.insert(TABLE_TRIP, // table
@@ -144,10 +171,10 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
         // 4. build book object
         Trip trip = new Trip();
         trip.setID(Integer.parseInt(cursor.getString(0)));
-        trip.setStartTime(Long.parseLong(cursor.getString(1)));
-        trip.setElapsedTime(Long.parseLong(cursor.getString(2)));
-        trip.setRouteID(Integer.parseInt(cursor.getString(3)));
-        trip.setLatLangFileLocation(cursor.getString(4));
+        trip.setStartTime(Long.parseLong(cursor.getString(2)));
+        trip.setElapsedTime(Long.parseLong(cursor.getString(4)));
+        trip.setRouteID(Integer.parseInt(cursor.getString(1)));
+        trip.setLatLangFileLocation(cursor.getString(3));
 
         //log
         //Log.d("getBook("+id+")", book.toString());
@@ -174,10 +201,10 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
             do {
                 Trip trip = new Trip();
                 trip.setID(Integer.parseInt(cursor.getString(0)));
-                trip.setStartTime(Long.parseLong(cursor.getString(1)));
-                trip.setElapsedTime(Long.parseLong(cursor.getString(2)));
-                trip.setRouteID(Integer.parseInt(cursor.getString(3)));
-                trip.setLatLangFileLocation(cursor.getString(4));
+                trip.setStartTime(Long.parseLong(cursor.getString(2)));
+                trip.setElapsedTime(Long.parseLong(cursor.getString(4)));
+                trip.setRouteID(Integer.parseInt(cursor.getString(1)));
+                trip.setLatLangFileLocation(cursor.getString(3));
 
 
                 // Add book to books
@@ -198,10 +225,10 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
 
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
-        values.put(KEY_TIMESTAMP, trip.getStartTime()); // get title
-        values.put(KEY_TIMETAKEN, trip.getElapsedTime());
         values.put(KEY_ROUTEID, trip.getRouteID());
-        values.put(KEY_LATLANGFILE, trip.getLatLangFileLocation());// get author
+        values.put(KEY_TIMESTAMP, trip.getStartTime()); // get title
+        values.put(KEY_LATLANGFILE, trip.getLatLangFileLocation());
+        values.put(KEY_TIMETAKEN, trip.getElapsedTime());
 
         // 3. updating row
         int i = db.update(TABLE_TRIP, //table
@@ -231,6 +258,37 @@ public class SQLiteHelper  extends SQLiteOpenHelper{
 
         //log
         Log.d("deleteBook", trip.toString());
+
+    }
+
+    public String saveLatLangFile(Trip trip){
+
+        ArrayList<LatLng>  routeMap = trip.getRouteMap();
+        int id = trip.getID();
+        String filename = "trip_id-" + Integer.toString(id);
+        int length = routeMap.size();
+        String LatLang = null;
+
+        try {
+
+            FileOutputStream fos = c.getApplicationContext().openFileOutput(filename, c.MODE_PRIVATE);
+
+            for(int i = 0; i < length; i++){
+
+                LatLang =  routeMap.get(i).toString();
+                fos.write(LatLang.getBytes());
+
+            }
+
+
+        }
+        catch(FileNotFoundException e){
+
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    return filename;
 
     }
 

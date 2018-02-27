@@ -11,9 +11,8 @@ import java.util.ArrayList;
  */
 public class Trip {
     //The route with the latitude and longitude measurements
-    private ArrayList<LatLng> routeMap= new ArrayList<LatLng>();
-    //The time distances between each LatLng
-    private ArrayList<Integer> timeMap = new ArrayList<Integer>();
+    private ArrayList<LatLng> routeMap = new ArrayList<LatLng>();
+
 
     //The number of nodes in the route
     int index;
@@ -38,6 +37,12 @@ public class Trip {
     }
 
 
+
+
+
+
+
+
     //-----------------------------------Accessors & Mutators-----------------------------------\\
 
     /**
@@ -48,7 +53,7 @@ public class Trip {
      */
     public void addNode(LatLng latitudeAndLonitude, Integer time){
         routeMap.add(latitudeAndLonitude);
-        timeMap.add(time);
+
         index++;
     }
 
@@ -62,14 +67,11 @@ public class Trip {
         return routeMap.get(nodeNumber);
     }
 
-    /**
-     * Accessor method to get the time in between the nodes
-     *
-     * @param nodeNumber : The number of the node to get
-     * @return : The integer of the time between nodes
-     */
-    public Integer getTime(int nodeNumber){
-        return timeMap.get(nodeNumber);
+
+    public ArrayList<LatLng> getRouteMap (){
+
+        return routeMap;
+
     }
 
     /**

@@ -26,5 +26,6 @@
     <string name="resumeText">Resume</string>
     <string name="new_journey">New Journey</string>
     <string name="new_route">New Route</string>
+    <string name="query1">SELECT * FROM trip ORDER BY column DESC LIMIT 1;</string>
 
 </resources>
