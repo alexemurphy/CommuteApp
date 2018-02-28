@@ -33,6 +33,7 @@
     <string name="enter_journey_destination">Enter Journey Destination</string>
     <string name="enter_route_name">Enter Route Name</string>
     <string name="create_route">Create Route</string>
+    <string name="save_journey">Save Journey</string>
     <string name="cancel">Cancel</string>
 
 
