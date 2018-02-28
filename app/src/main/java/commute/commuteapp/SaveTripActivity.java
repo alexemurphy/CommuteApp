@@ -3,6 +3,7 @@ package commute.commuteapp;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -42,30 +43,44 @@ public class SaveTripActivity extends AppCompatActivity {
      */
     public ArrayList<ArrayList<String>> getJourneyList(){
         //TODO Broken for empty table
-        //ArrayList<Journey> allJourneys = SQLiteHelper.getAllJourneys();
+
+        ArrayList<Journey> allJourneys;
         ArrayList<ArrayList<String>> journeyNames = new ArrayList<>();
 
-        //TODO Broken for no elements in table
-        /*
-        int allJourneysSize = allJourneys.size();
-        int ID;
-        String origin;
-        String destination;
+        try {
+
+            allJourneys = SQLiteHelper.getAllJourneys();
+
+            int allJourneysSize = allJourneys.size();
+            int ID;
+            String origin;
+            String destination;
 
 
-        for(int i = 0; i < allJourneysSize; i++){
-            ID = allJourneys.get(i).getID();
-            origin = allJourneys.get(i).getOrigin();
-            destination = allJourneys.get(i).getDestination();
-            ArrayList<String> currentJourneyInfo = new ArrayList<>();
-            currentJourneyInfo.add(0, Integer.toString(ID));
-            currentJourneyInfo.add(1, origin);
-            currentJourneyInfo.add(2, destination);
+            for(int i = 0; i < allJourneysSize; i++){
+                ID = allJourneys.get(i).getID();
+                origin = allJourneys.get(i).getOrigin();
+                destination = allJourneys.get(i).getDestination();
+                ArrayList<String> currentJourneyInfo = new ArrayList<>();
+                currentJourneyInfo.add(0, Integer.toString(ID));
+                currentJourneyInfo.add(1, origin);
+                currentJourneyInfo.add(2, destination);
 
-            journeyNames.add(currentJourneyInfo);
+                journeyNames.add(currentJourneyInfo);
+
+            }
 
         }
-        */
+        catch(NullPointerException e){
+
+            ArrayList<String> empty  = new ArrayList<>();
+            empty.add(0, "-1");
+            empty.add(1, "");
+            empty.add(2, "");
+            journeyNames.add(empty);
+
+        }
+
         return journeyNames;
     }
 
@@ -74,26 +89,37 @@ public class SaveTripActivity extends AppCompatActivity {
      * [[ID, String]]
      */
     public ArrayList<ArrayList<String>> getRouteList(String ID){
-        //TODO Broken for empty table
-       // ArrayList<Route> allRoutes = SQLiteHelper.getAllRoutesInJourney(Integer.parseInt(ID));
+
+
         ArrayList<ArrayList<String>> routeNames = new ArrayList<>();
 
-        //TODO Broken for empty table
-        /*
-        int allRoutesSize = allRoutes.size();
-        int routeID;
-        String routeName;
+        try {
 
 
-        for(int i = 0; i < allRoutesSize; i++){
-            routeID = allRoutes.get(i).getID();
-            routeName = allRoutes.get(i).getName();
-            ArrayList<String> currentJourneyInfo = new ArrayList<>();
-            currentJourneyInfo.add(0, Integer.toString(routeID));
-            currentJourneyInfo.add(1, routeName);
-            routeNames.add(currentJourneyInfo);
+            ArrayList<Route> allRoutes = SQLiteHelper.getAllRoutesInJourney(Integer.parseInt(ID));
+            int allRoutesSize = allRoutes.size();
+            int routeID;
+            String routeName;
+
+
+            for (int i = 0; i < allRoutesSize; i++) {
+                routeID = allRoutes.get(i).getID();
+                routeName = allRoutes.get(i).getName();
+                ArrayList<String> currentJourneyInfo = new ArrayList<>();
+                currentJourneyInfo.add(0, Integer.toString(routeID));
+                currentJourneyInfo.add(1, routeName);
+                routeNames.add(currentJourneyInfo);
+            }
         }
-        */
+        catch(NullPointerException e){
+
+            ArrayList<String> empty = new ArrayList<>();
+            empty.add(0, "-1");
+            empty.add(1,"");
+            routeNames.add(empty);
+
+        }
+
         return routeNames;
 
     }
