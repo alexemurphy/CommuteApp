@@ -17,10 +17,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -60,6 +62,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     //Journeys and routes list
     ArrayList<ArrayList<String>> journeys;
     ArrayList<ArrayList<String>> routes;
+    private String spinnerResult = "car";
 
 
 
@@ -389,13 +392,14 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TrackRouteActivity.this);
         alertDialogBuilder.setView(promptView);
 
+        //Buttons
         final EditText journeyName = promptView.findViewById(R.id.journeyName);
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        saveTrip.setNewJourneyName(journeyName.getText().toString());
-
+                        //TODO Fix this!!!
+                        saveTrip.setNewJourney(journeyName.getText().toString(), journeyName.getText().toString());
 
                     }
                 })
@@ -416,29 +420,44 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      */
     private void showRouteInputBox(){
         //Setup the alert view
-        LayoutInflater layoutInflater = LayoutInflater.from(TrackRouteActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.activity_newroute, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TrackRouteActivity.this);
-        alertDialogBuilder.setView(promptView);
+        setContentView(R.layout.activity_newroute);
 
-        final EditText routeName = promptView.findViewById(R.id.routeName);
-        // setup a dialog window
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        saveTrip.setNewRouteName(routeName.getText().toString());
-                    }
-                })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+        //Dropdown
+        //Get all of the transport methods
+        ArrayList<String> transportMethods = new ArrayList<>();
+        transportMethods.add("Car");
+        transportMethods.add("Bus");
+        transportMethods.add("Bike");
+        transportMethods.add("Train");
+        transportMethods.add("Foot");
+        transportMethods.add("Plane");
+        transportMethods.add("Boat");
 
-        // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
+        //Add all elements to the list
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, transportMethods);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ((Spinner) findViewById(R.id.spinner_transport_method)).setAdapter(adapter);
+
+        //Buttons
+        //Cancel Button
+        final Button cancel = findViewById(R.id.btnCancel);
+        cancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                saveMenuSetup();
+            }
+        });
+
+        //Save Button
+        final Button save = findViewById(R.id.btnCreateRoute);
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                saveTrip.setNewRoute(((EditText) findViewById(R.id.routeName)).getText().toString(), ((Spinner)findViewById(R.id.spinner_transport_method)).getSelectedItem().toString());
+                saveMenuSetup();
+            }
+        });
+
     }
 
     /**
@@ -453,12 +472,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         ID = getIDFromName(routes, ((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
         //Route ID
         trackedTrip.setRouteID(new Integer(ID));
-
-        //Trip Name
-        trackedTrip.setTripName(((EditText)findViewById(R.id.tripSave)).getText().toString());
-
-        //Transport Method
-        trackedTrip.setTransportMethod(((EditText)findViewById(R.id.transportMethodInput)).getText().toString());
     }
 
     /**
