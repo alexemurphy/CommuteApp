@@ -123,7 +123,7 @@ public class SaveTripClass {
         try {
 
 
-            ArrayList<Route> allRoutes = helper.getAllRoutesInJourney(Integer.parseInt(ID));
+            ArrayList<Route> allRoutes = helper.getAllRoutesInJourney(ID);
             int allRoutesSize = allRoutes.size();
             int routeID;
             String routeName;

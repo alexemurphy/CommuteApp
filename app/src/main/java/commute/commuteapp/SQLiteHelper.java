@@ -498,9 +498,9 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         return routes;
     }
 
-    public ArrayList<Route> getAllRoutesInJourney(int journeyID) {
+    public ArrayList<Route> getAllRoutesInJourney(String journeyID) {
         ArrayList<Route> routes = new ArrayList<Route>();
-        String journeyIDStr = Integer.toString(journeyID);
+        String journeyIDStr = journeyID;
 
 
         // 2. get reference to writable DB

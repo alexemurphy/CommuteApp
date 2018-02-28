@@ -367,19 +367,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         });
     }
 
-    public void saveButton(View view){
-        //Get all of the data values from the GUI
-        getAllValues();
-
-        //Save trip
-        saveTrip.saveTrip();
-
-        //Return to main menu
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-
-    }
-
     /**
      * Gets the ID from the String List using the name presented to the user
      *
@@ -388,9 +375,10 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      * @return  : The ID or null if the name cannot be found
      */
     private String getIDFromName(ArrayList<ArrayList<String>> mainList, String target){
+
         for(int i = 0; i < mainList.size(); i++){
-            if(mainList.get(i).get(1).equals(target)){
-                return mainList.get(i).get(1);
+            if(target.contains(mainList.get(i).get(1)) && target.contains(mainList.get(i).get(2))){
+                return mainList.get(i).get(0);
             }
         }
         return null;
@@ -532,7 +520,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //Get all of the strings of the journey
         ArrayList<String> journeyStrings = new ArrayList<String>();
         for(int i = 0; i < journeys.size(); i++){
-            journeyStrings.add(journeys.get(i).get(1));
+            journeyStrings.add(journeys.get(i).get(1) + " -> " + journeys.get(i).get(2));
         }
 
         //Add all elements to the list

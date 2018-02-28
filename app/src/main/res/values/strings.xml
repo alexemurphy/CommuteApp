@@ -40,6 +40,7 @@
     <string name="back">Back</string>
     <string name="edit_journey">Edit Journey</string>
     <string name="delete_journey">Delete Journey</string>
+    <string name="load_route">Load Route</string>
 
 
 </resources>
