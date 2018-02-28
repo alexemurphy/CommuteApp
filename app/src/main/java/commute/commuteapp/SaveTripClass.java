@@ -175,4 +175,31 @@ public class SaveTripClass {
         Log.d("setNewRoute", "Name: " + name + " Transport Method: " + transportMethod);
     }
 
+    /**
+     * Checks whether the route name has been used before
+     *
+     * @param routeName : The name of the route
+     * @return : True if has been used, false if the name has not been used
+     */
+    public boolean checkRouteNameExists(String routeName){
+        return false;
+    }
+
+    /**
+     * Delete the journey via its ID
+     *
+     * @param journeyID
+     */
+    public void deleteJourney(String journeyID){
+        //TODO Delete the journey by the ID
+    }
+
+    /**
+     * Save Journey
+     *
+     * @param journey: The journey to be saved
+     */
+    public void saveJourney(ArrayList<String> journey){
+        //TODO Save the journey
+    }
 }

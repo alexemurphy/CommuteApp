@@ -84,7 +84,8 @@ public class LoaderActivity extends AppCompatActivity {
         journeyTable = findViewById(R.id.journeyTable);
 
         //Back Button
-        Button back = findViewById(R.id.btnBack);
+        Button back = findViewById(R.id.backButton);
+
         back.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
