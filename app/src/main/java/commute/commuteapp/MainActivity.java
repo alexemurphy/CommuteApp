@@ -25,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Set the layout to be the main menu
         setContentView(R.layout.activity_main);
-
-
+        SQLiteHelper sqLiteHelper = new SQLiteHelper(this);
 
         //If the google play service is available
         if(checkGoogleServiceVersion()){

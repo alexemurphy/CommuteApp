@@ -383,7 +383,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     * Show a popup for entering a new journey name
+     * Show a popup for entering a new journey name //TODO FIX THIS TO ADD JOURNEYS
      */
     private void showJourneyInputBox(){
         //Setup the alert view
@@ -400,6 +400,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     public void onClick(DialogInterface dialog, int id) {
                         //TODO Fix this!!!
                         saveTrip.setNewJourney(journeyName.getText().toString(), journeyName.getText().toString());
+
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -415,7 +416,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     /**
-     * Show a popup for entering a new route name
+     * Show a popup for entering a new route name //TODO FIX THIS TO ADD ROUTES
      */
     private void showRouteInputBox(){
         //Setup the alert view
@@ -466,7 +467,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         //TODO Fix this
         //Journey ID
         String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-        trackedTrip.setJourneyID(new Integer(ID));
+        trackedTrip.setJourneyID(new Integer(ID)); //TODO THIS NEEDS TO GO -AM
 
         ID = getIDFromName(routes, ((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
         //Route ID

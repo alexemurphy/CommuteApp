@@ -30,6 +30,14 @@ import java.util.ArrayList;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
 
+    private static SQLiteHelper sInstance;
+
+/**
+*
+* Static variables needed for accessing the database
+*
+* */
+
 
     // Database Version
     private static final int DATABASE_VERSION = 1;
@@ -72,6 +80,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
     }
 
+    /**
+     * Creating the tables in the database
+     *
+     *
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         // SQL statement to create book table
@@ -116,6 +130,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         // create fresh books table
         this.onCreate(db);
     }
+
+    
 
     public void addTrip(Trip trip){
 
@@ -379,30 +395,43 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 
 
-    public void addRoute(Route route){
-
-
+    public int addRoute(Route route){
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
-        values.put(KEY_NAME, route.getName());
-        values.put(KEY_JOURNEYID, route.getJourneyID());
-        values.put(KEY_DISTANCE, route.getDistance()); // get title
-        values.put(KEY_TRANSPORT_TYPE, route.getTransportType());
+        Cursor cursor = db.query(TABLE_ROUTE, COLUMNS_ROUTE,"name=?", new String[] {route.getName()},  null,null,null);
+
+        boolean empty = cursor.getCount() <= 0 && cursor != null;
+        if(empty) {
+
+            // 2. create ContentValues to add key "column"/value
+            ContentValues values = new ContentValues();
+            values.put(KEY_NAME, route.getName());
+            values.put(KEY_JOURNEYID, route.getJourneyID());
+            values.put(KEY_DISTANCE, route.getDistance()); // get title
+            values.put(KEY_TRANSPORT_TYPE, route.getTransportType());
 
 
-        // get author
+            // get author
 
-        // 3. insert
-        db.insert(TABLE_ROUTE, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
+            // 3. insert
+            db.insert(TABLE_ROUTE, // table
+                    null, //nullColumnHack
+                    values); // key/value -> keys = column names/ values = column values
 
-        // 4. close
-        db.close();
+            // 4. close
+            db.close();
+
+            return 0;
+
+        }
+        else{
+
+            return -1;
+
+        }
+
     }
 
     public Route getRoute(int id){
@@ -481,7 +510,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
        // Cursor cursor = db.rawQuery(query, null);
 
-        Cursor cursor = db.query(TABLE_ROUTE, COLUMNS_ROUTE,"journeyID=?", new String[] {journeyIDStr},  null,null,null);
+        Cursor cursor = db.query(TABLE_ROUTE, COLUMNS_JOURNEY,"journeyID=?", new String[] {journeyIDStr},  null,null,null);
 
         // 3. go over each row, build book and add it to list
         //route route = null;
@@ -552,29 +581,40 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
 
 
-    public void addJourney(Journey journey){
+    public int addJourney(Journey journey){
 
-
-
-        // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
-        values.put(KEY_ORIGIN, journey.getOrigin());
-        values.put(KEY_DESTINATION, journey.getDestination()); // get title
+        Cursor cursor = db.query(TABLE_JOURNEY, COLUMNS_ROUTE,"origin=?", new String[] {journey.getOrigin()},  null,null,null);
+
+        Cursor cursor2 = db.query(TABLE_JOURNEY, COLUMNS_ROUTE,"destination=?", new String[] {journey.getDestination()},  null,null,null);
+
+        boolean empty = cursor.getCount() <= 0 && cursor != null && cursor2 != null && cursor2.getCount() <= 0;
+        if(empty){
+
+            // 2. create ContentValues to add key "column"/value
+            ContentValues values = new ContentValues();
+            values.put(KEY_ORIGIN, journey.getOrigin());
+            values.put(KEY_DESTINATION, journey.getDestination()); // get title
+
+            // 3. insert
+            db.insert(TABLE_ROUTE, // table
+                    null, //nullColumnHack
+                    values); // key/value -> keys = column names/ values = column values
+
+            // 4. close
+            db.close();
+
+            return 0;
+        }
+        else{
+
+            return -1;
+        }
 
 
 
-        // get author
 
-        // 3. insert
-        db.insert(TABLE_ROUTE, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
-
-        // 4. close
-        db.close();
     }
 
 
