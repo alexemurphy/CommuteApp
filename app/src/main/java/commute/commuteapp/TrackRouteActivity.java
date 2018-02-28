@@ -2,6 +2,7 @@ package commute.commuteapp;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+<<<<<<< HEAD
+=======
+import android.widget.Toast;
+>>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -352,7 +357,22 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+<<<<<<< HEAD
             saveButton(view);
+=======
+                //Get all of the data values from the GUI
+                if(getAllValues()) {
+                    //If gathering was successful, continue
+                    saveTrip.setTripToSave(trackedTrip);
+
+                    //Save trip
+                    saveTrip.saveTrip();
+
+                    //Return to main menu
+                    Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+>>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
             }
         });
     }
@@ -391,12 +411,10 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
      */
     private void showJourneyInputBox(){
         //Setup the alert view
-        LayoutInflater layoutInflater = LayoutInflater.from(TrackRouteActivity.this);
-        View promptView = layoutInflater.inflate(R.layout.activity_newjourney, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TrackRouteActivity.this);
-        alertDialogBuilder.setView(promptView);
+        setContentView(R.layout.activity_newjourney);
 
         //Buttons
+<<<<<<< HEAD
         final EditText journeyName = promptView.findViewById(R.id.journeyName);
         // setup a dialog window
         alertDialogBuilder.setCancelable(false)
@@ -405,19 +423,34 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                         //TODO Fix this!!!
                         saveTrip.setNewJourney(journeyName.getText().toString(), journeyName.getText().toString());
                         setJourneys();
+=======
+        //Cancel Button
+        final Button cancel = findViewById(R.id.btnCancel);
+        cancel.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                saveMenuSetup();
+            }
+        });
+>>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
 
-                    }
-                })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+        //Save Button
+        final Button save = findViewById(R.id.btnSaveJourney);
+        save.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String origin = ((EditText) findViewById(R.id.originName)).getText().toString();
+                String dest = ((EditText) findViewById(R.id.destinationName)).getText().toString();
 
-        // create an alert dialog
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
+                if(origin.equals("") || dest.equals("")){
+                    throwWarningMessage("Origin or Destination Name Empty");
+                }
+                else {
+                    saveTrip.setNewJourney(origin, dest);
+                    saveMenuSetup();
+                }
+            }
+        });
     }
 
     /**
@@ -439,8 +472,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         transportMethods.add("Boat");
 
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, transportMethods);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, transportMethods);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         ((Spinner) findViewById(R.id.spinner_transport_method)).setAdapter(adapter);
 
         //Buttons
@@ -458,10 +491,21 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
+<<<<<<< HEAD
                 saveTrip.setNewRoute(((EditText) findViewById(R.id.routeName)).getText().toString(), ((Spinner)findViewById(R.id.spinner_transport_method)).getSelectedItem().toString());
                 saveMenuSetup();
 
 
+=======
+                String routeName = ((EditText) findViewById(R.id.routeName)).getText().toString();
+                if(routeName.equals("") || saveTrip.checkRouteNameExists(routeName)){
+                    throwWarningMessage("Invalid Route Name Provided!");
+                }
+                else {
+                    saveTrip.setNewRoute(routeName, ((Spinner) findViewById(R.id.spinner_transport_method)).getSelectedItem().toString());
+                    saveMenuSetup();
+                }
+>>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
             }
         });
 
@@ -469,16 +513,42 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
 
     /**
      * Gets all of the values from the saveTripMenu
+     *
+     * @return : True if successful, false otherwise
      */
-    private void getAllValues(){
+    private boolean getAllValues(){
         //TODO Fix this
         //Journey ID
-        String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-        trackedTrip.setJourneyID(new Integer(ID)); //TODO THIS NEEDS TO GO -AM
+        String ID;
+        try {
+            ID = getIDFromName(journeys, ((Spinner) findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+            trackedTrip.setJourneyID(new Integer(ID)); //TODO THIS NEEDS TO GO -AM
+        }
+        catch(Exception e){
+            throwWarningMessage("No Journey Name Set");
+            return false;
+        }
+        try {
+            ID = getIDFromName(routes, ((Spinner) findViewById(R.id.routeDropdown)).getSelectedItem().toString());
+            //Route ID
+            trackedTrip.setRouteID(new Integer(ID));
+        }
+        catch(Exception e){
+            throwWarningMessage("No Route Name Set");
+            return false;
+        }
+        return true;
+    }
 
-        ID = getIDFromName(routes, ((Spinner)findViewById(R.id.routeDropdown)).getSelectedItem().toString());
-        //Route ID
-        trackedTrip.setRouteID(new Integer(ID));
+    /**
+     * Throws a warning message to the user
+     *
+     * @param msg : The string to be thrown
+     */
+    private void throwWarningMessage(String msg){
+        Context c = getApplicationContext();
+        Toast t = Toast.makeText(c, msg, Toast.LENGTH_SHORT);
+        t.show();
     }
 
     /**
@@ -494,8 +564,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeyStrings);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, journeyStrings);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         ((Spinner) findViewById(R.id.journeyDropdown)).setAdapter(adapter);
     }
 
@@ -513,8 +583,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             routeStrings.add(routes.get(i).get(1));
         }
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routeStrings);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, routeStrings);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         ((Spinner) findViewById(R.id.routeDropdown)).setAdapter(adapter);
     }
 

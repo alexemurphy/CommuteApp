@@ -31,7 +31,7 @@
             tools:layout_editor_absoluteY="46dp" />
 
         <TextView
-            android:id="@+id/journeyName"
+            android:id="@+id/originName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/journeyDropdown"
@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/routeDropdown"
-            android:layout_alignStart="@+id/journeyName"
+            android:layout_alignStart="@+id/originName"
             android:layout_marginBottom="25dp"
             android:text="@string/route"
             android:textSize="18sp" />

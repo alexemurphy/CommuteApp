@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp">
 
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/enter_journey_origin"
-        android:id="@+id/textView" />
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/journeyName"
+        android:id="@+id/originName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView"
+        android:layout_marginTop="12dp"
         android:inputType=""
-        android:labelFor="@+id/journeyName"
-        android:padding="10dp" />
+        android:labelFor="@+id/originName"
+        android:padding="10dp"
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/originName"
+        android:layout_marginTop="14dp"
         android:text="@string/enter_journey_destination"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -33,9 +39,30 @@
         android:id="@+id/destinationName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginTop="11dp"
         android:inputType=""
-        android:labelFor="@+id/journeyName"
+        android:labelFor="@+id/originName"
         android:padding="10dp"
+        android:singleLine="true"
         tools:labelFor="@id/destinationName" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/destinationName"
+        android:text="@string/cancel" />
+
+    <Button
+        android:id="@+id/btnSaveJourney"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/destinationName"
+        android:layout_marginEnd="13dp"
+        android:text="@string/save_journey" />
+
+</RelativeLayout>
