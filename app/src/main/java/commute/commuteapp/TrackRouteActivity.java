@@ -434,8 +434,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         transportMethods.add("Boat");
 
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, transportMethods);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, transportMethods);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         ((Spinner) findViewById(R.id.spinner_transport_method)).setAdapter(adapter);
 
         //Buttons
@@ -487,8 +487,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         }
 
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, journeyStrings);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, journeyStrings);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         ((Spinner) findViewById(R.id.journeyDropdown)).setAdapter(adapter);
     }
 
@@ -506,8 +506,8 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             routeStrings.add(routes.get(i).get(1));
         }
         //Add all elements to the list
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, routeStrings);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.spinner_item, routeStrings);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         ((Spinner) findViewById(R.id.routeDropdown)).setAdapter(adapter);
     }
 
