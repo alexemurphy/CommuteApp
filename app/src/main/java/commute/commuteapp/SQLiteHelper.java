@@ -495,9 +495,6 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllBooks()", routes.toString());
-
-        // return books
         return routes;
     }
 
@@ -510,7 +507,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         SQLiteDatabase db = this.getWritableDatabase();
        // Cursor cursor = db.rawQuery(query, null);
 
-        Cursor cursor = db.query(TABLE_ROUTE, COLUMNS_JOURNEY,"journeyID=?", new String[] {journeyIDStr},  null,null,null);
+        Cursor cursor = db.query(TABLE_ROUTE, COLUMNS_ROUTE,"journeyID=?", new String[] {journeyIDStr},  null,null,null);
 
         // 3. go over each row, build book and add it to list
         //route route = null;
@@ -530,9 +527,6 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllBooks()", routes.toString());
-
-        // return books
         return routes;
     }
 
@@ -566,16 +560,19 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. delete
+        // 2. delete routes
         db.delete(TABLE_ROUTE, //table name
                 KEY_ID+" = ?",  // selections
+                new String[] { String.valueOf(route.getID()) }); //selections args
+
+        //delete trips associated with routes
+        db.delete(TABLE_TRIP, //table name
+                KEY_ROUTEID+" = ?",  // selections
                 new String[] { String.valueOf(route.getID()) }); //selections args
 
         // 3. close
         db.close();
 
-        //log
-     //   Log.d("deleteBook", route.toString());
 
     }
 
@@ -639,6 +636,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         if (cursor != null)
             cursor.moveToFirst();
 
+
         // 4. build book object
         Journey journey = new Journey();
         journey.setID(Integer.parseInt(cursor.getString(0)));
@@ -675,9 +673,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             } while (cursor.moveToNext());
         }
 
-       // Log.d("getAllBooks()", journeys.toString());
 
-        // return books
+
         return journeys;
     }
 
@@ -704,26 +701,50 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
     }
 
-    public void deleteJourney(Journey journey) { //TODO make it delete routes and trips
-
-        // 1. get reference to writable DB
+    public void deleteJourney(Journey journey) {
+        // Open db
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. delete
+        // Delete journey
         db.delete(TABLE_JOURNEY, //table name
                 KEY_ID+" = ?",  // selections
                 new String[] { String.valueOf(journey.getID()) }); //selections args
 
+
+
+        ArrayList<String> routes = new ArrayList<String>(); //array for routeIDs to delete from trip
+
+        Cursor cursor = db.query(TABLE_ROUTE, COLUMNS_ROUTE,"journeyID=?", new String[] {Integer.toString(journey.getID())},  null,null,null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                routes.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+
+        if(!routes.isEmpty()){
+
+            db.delete(TABLE_ROUTE, //table name
+                    KEY_JOURNEYID+" = ?",  // selections
+                    new String[] { String.valueOf(journey.getID()) }); //selections args
+
+
+
+            for(int i = 0; i < routes.size(); i++){
+
+                String currentRoute = routes.get(i);
+
+                db.delete(TABLE_TRIP, //table name
+                        KEY_ROUTEID+" = ?",  // selections
+                        new String[] { currentRoute }); //selections args
+
+            }
+        }
+
         // 3. close
         db.close();
 
-
-
     }
-
-
-
-
-
 
 }
