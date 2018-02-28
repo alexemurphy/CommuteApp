@@ -29,8 +29,11 @@
 
     <string name="query1">SELECT * FROM trip ORDER BY column DESC LIMIT 1;</string>
 
-    <string name="enter_journey_name">Enter Journey Name</string>
+    <string name="enter_journey_origin">Enter Journey Origin</string>
+    <string name="enter_journey_destination">Enter Journey Destination</string>
     <string name="enter_route_name">Enter Route Name</string>
+    <string name="create_route">Create Route</string>
+    <string name="cancel">Cancel</string>
 
 
 </resources>

@@ -114,6 +114,10 @@ public class Trip {
 
     }
 
+    public int getIndex(){
+        return index;
+    }
+
 
 
     /**
