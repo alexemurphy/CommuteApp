@@ -7,7 +7,6 @@
 
     <TextView
         android:id="@+id/loadJourney"
-        tools:layout_editor_absoluteY="46dp"
         android:layout_width="273dp"
         android:layout_height="57dp"
         android:layout_alignParentTop="true"
