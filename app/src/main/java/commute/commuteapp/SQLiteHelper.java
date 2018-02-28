@@ -560,16 +560,19 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
 
-        // 2. delete
+        // 2. delete routes
         db.delete(TABLE_ROUTE, //table name
                 KEY_ID+" = ?",  // selections
+                new String[] { String.valueOf(route.getID()) }); //selections args
+
+        //delete trips associated with routes
+        db.delete(TABLE_TRIP, //table name
+                KEY_ROUTEID+" = ?",  // selections
                 new String[] { String.valueOf(route.getID()) }); //selections args
 
         // 3. close
         db.close();
 
-        //log
-     //   Log.d("deleteBook", route.toString());
 
     }
 
@@ -698,7 +701,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
     }
 
-    public void deleteJourney(Journey journey) { 
+    public void deleteJourney(Journey journey) {
         // Open db
         SQLiteDatabase db = this.getWritableDatabase();
 
