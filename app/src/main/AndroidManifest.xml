@@ -31,6 +31,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".TrackRouteActivity"></activity>
+        <activity android:name=".LoaderActivity"></activity>
+        <activity android:name=".Edit.EditJourney"></activity>
     </application>
 
 </manifest>

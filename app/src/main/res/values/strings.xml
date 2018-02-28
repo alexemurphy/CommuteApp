@@ -36,6 +36,10 @@
     <string name="save_journey">Save Journey</string>
     <string name="cancel">Cancel</string>
     <string name="load_journey">Load Journey</string>
+    <string name="edit">Edit</string>
+    <string name="back">Back</string>
+    <string name="edit_journey">Edit Journey</string>
+    <string name="delete_journey">Delete Journey</string>
 
 
 </resources>

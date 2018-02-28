@@ -39,27 +39,30 @@ public class MainActivity extends AppCompatActivity {
      */
     private void init(){
         //Create a button to navigate to the map
-        Button trackMap = (Button) findViewById(R.id.TrackMap);
+        Button trackMap = findViewById(R.id.TrackMap);
         trackMap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 //Change to map view
-                goToMap(view);
+                goToMap();
             }
         });
 
-        Button routeMap = (Button) findViewById(R.id.RouteMap);
+        Button routeMap = findViewById(R.id.RouteMap);
         routeMap.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //TODO Do Something
+                goToLoad();
             }
         });
-
-
     }
 
-    public void goToMap(View view) {
+    public void goToLoad(){
+        Intent intent = new Intent(this, LoaderActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToMap() {
         Intent intent = new Intent(this, TrackRouteActivity.class);
         startActivity(intent);
     }

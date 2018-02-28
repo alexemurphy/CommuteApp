@@ -23,6 +23,11 @@ public class SaveTripActivity extends AppCompatActivity {
         tripToSave = inputTrip;
     }
 
+    /**
+     * Empty Constructor
+     */
+    public SaveTripActivity(){}
+
 
 
     /**
@@ -129,6 +134,24 @@ public class SaveTripActivity extends AppCompatActivity {
      */
     public boolean checkRouteNameExists(String routeName){
         return false;
+    }
+
+    /**
+     * Delete the journey via its ID
+     *
+     * @param journeyID
+     */
+    public void deleteJourney(String journeyID){
+        //TODO Delete the journey by the ID
+    }
+
+    /**
+     * Save Journey
+     *
+     * @param journey: The journey to be saved
+     */
+    public void saveJourney(ArrayList<String> journey){
+        //TODO Save the journey
     }
 
 }
