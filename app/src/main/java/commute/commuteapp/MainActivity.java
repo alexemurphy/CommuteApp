@@ -25,17 +25,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Set the layout to be the main menu
         setContentView(R.layout.activity_main);
-        SQLiteHelper sqLiteHelper = new SQLiteHelper(this);
+
 
         //If the google play service is available
         if(checkGoogleServiceVersion()){
             init();
         }
-
-
-
-
-
 
     }
 
@@ -49,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view){
                 //Change to map view
-                Intent intent = new Intent(MainActivity.this, TrackRouteActivity.class);
-                startActivity(intent);
+                goToMap(view);
             }
         });
 
@@ -63,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void goToMap(View view) {
+        Intent intent = new Intent(this, TrackRouteActivity.class);
+        startActivity(intent);
     }
 
     /**

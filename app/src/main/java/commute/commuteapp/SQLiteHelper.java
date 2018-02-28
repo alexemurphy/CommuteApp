@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class SQLiteHelper extends SQLiteOpenHelper{
 
-    private static SQLiteHelper sInstance;
+
 
 /**
 *
@@ -580,11 +580,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
 
     public int addJourney(Journey journey){
 
+
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.query(TABLE_JOURNEY, COLUMNS_ROUTE,"origin=?", new String[] {journey.getOrigin()},  null,null,null);
+        Cursor cursor = db.query(TABLE_JOURNEY, COLUMNS_JOURNEY,"origin=?", new String[] {journey.getOrigin()},  null,null,null);
 
-        Cursor cursor2 = db.query(TABLE_JOURNEY, COLUMNS_ROUTE,"destination=?", new String[] {journey.getDestination()},  null,null,null);
+        Cursor cursor2 = db.query(TABLE_JOURNEY, COLUMNS_JOURNEY,"destination=?", new String[] {journey.getDestination()},  null,null,null);
 
         boolean empty = cursor.getCount() <= 0 && cursor != null && cursor2 != null && cursor2.getCount() <= 0;
         if(empty){
@@ -595,7 +596,7 @@ public class SQLiteHelper extends SQLiteOpenHelper{
             values.put(KEY_DESTINATION, journey.getDestination()); // get title
 
             // 3. insert
-            db.insert(TABLE_ROUTE, // table
+            db.insert(TABLE_JOURNEY, // table
                     null, //nullColumnHack
                     values); // key/value -> keys = column names/ values = column values
 
