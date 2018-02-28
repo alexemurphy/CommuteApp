@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 
 public class LoaderActivity extends AppCompatActivity {
-    ArrayList<Journey> journeyList = new ArrayList<>();
 
     //Database Access
     SaveTripClass dbAccess = new SaveTripClass();
@@ -110,16 +109,16 @@ public class LoaderActivity extends AppCompatActivity {
         });
 
         //Get All Journeys [[ID, Origin, Destination], ...]
+        //TODO For some reason this doesn't work, but it does for TrackRouteActivity which does basically the same thing??!?!?!?!
         allJourneys = dbAccess.getJourneyList();
 
-        //TODO REMOVE THIS
-        ArrayList<String> f = new ArrayList<>();
-        f.add("1");f.add("Home");f.add("Work");
-        allJourneys.add(f);
-        //TODO REMOVE END
+        Log.d("All Journeys", "Starting");
+
         for(int i = 0; i < allJourneys.size(); i++){
+            Log.d("All Journeys", allJourneys.get(i).get(0) + " -> " + allJourneys.get(i).get(2));
             addNewJourney(allJourneys.get(i));
         }
+        Log.d("All Journeys", "DONE");
     }
 
 
