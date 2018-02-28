@@ -21,8 +21,10 @@ public class SaveTripClass {
     SQLiteHelper helper;
     Context c;
 
-
-
+    /**
+     * Empty Constructor
+     */
+    public SaveTripClass(){}
 
     /**
      * Constructor
@@ -173,16 +175,6 @@ public class SaveTripClass {
     public void setNewRoute(String name, String transportMethod){
         //TODO Set a new trip with the name given
         Log.d("setNewRoute", "Name: " + name + " Transport Method: " + transportMethod);
-    }
-
-    /**
-     * Checks whether the route name has been used before
-     *
-     * @param routeName : The name of the route
-     * @return : True if has been used, false if the name has not been used
-     */
-    public boolean checkRouteNameExists(String routeName){
-        return false;
     }
 
     /**

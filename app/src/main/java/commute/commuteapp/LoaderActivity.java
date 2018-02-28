@@ -20,7 +20,7 @@ public class LoaderActivity extends AppCompatActivity {
     ArrayList<Journey> journeyList = new ArrayList<>();
 
     //Database Access
-    SaveTripActivity dbAccess = new SaveTripActivity();
+    SaveTripClass dbAccess = new SaveTripClass();
 
     //Journey Table
     TableLayout journeyTable;
