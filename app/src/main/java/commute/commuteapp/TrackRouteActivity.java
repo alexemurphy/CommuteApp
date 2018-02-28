@@ -1,9 +1,7 @@
 package commute.commuteapp;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -16,16 +14,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-<<<<<<< HEAD
-=======
 import android.widget.Toast;
->>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
 
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -357,9 +351,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-<<<<<<< HEAD
-            saveButton(view);
-=======
                 //Get all of the data values from the GUI
                 if(getAllValues()) {
                     //If gathering was successful, continue
@@ -372,7 +363,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     Intent intent = new Intent(TrackRouteActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
->>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
             }
         });
     }
@@ -414,16 +404,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         setContentView(R.layout.activity_newjourney);
 
         //Buttons
-<<<<<<< HEAD
-        final EditText journeyName = promptView.findViewById(R.id.journeyName);
-        // setup a dialog window
-        alertDialogBuilder.setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //TODO Fix this!!!
-                        saveTrip.setNewJourney(journeyName.getText().toString(), journeyName.getText().toString());
-                        setJourneys();
-=======
         //Cancel Button
         final Button cancel = findViewById(R.id.btnCancel);
         cancel.setOnClickListener(new View.OnClickListener(){
@@ -432,7 +412,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                 saveMenuSetup();
             }
         });
->>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
 
         //Save Button
         final Button save = findViewById(R.id.btnSaveJourney);
@@ -491,12 +470,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         save.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-<<<<<<< HEAD
-                saveTrip.setNewRoute(((EditText) findViewById(R.id.routeName)).getText().toString(), ((Spinner)findViewById(R.id.spinner_transport_method)).getSelectedItem().toString());
-                saveMenuSetup();
-
-
-=======
                 String routeName = ((EditText) findViewById(R.id.routeName)).getText().toString();
                 if(routeName.equals("") || saveTrip.checkRouteNameExists(routeName)){
                     throwWarningMessage("Invalid Route Name Provided!");
@@ -505,7 +478,6 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     saveTrip.setNewRoute(routeName, ((Spinner) findViewById(R.id.spinner_transport_method)).getSelectedItem().toString());
                     saveMenuSetup();
                 }
->>>>>>> 55d3710e9e9ec96bf60baf52d1a9086510526db4
             }
         });
 

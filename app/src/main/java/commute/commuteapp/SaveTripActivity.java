@@ -23,9 +23,7 @@ public class SaveTripActivity extends AppCompatActivity {
         tripToSave = inputTrip;
     }
 
-    public void setTripToSave(Trip inpTrip){
-        tripToSave = inpTrip;
-    }
+
 
     /**
      * Interact with the SQLiteHelper to save the trip
