@@ -1,27 +1,38 @@
 package commute.commuteapp;
 
-import android.support.v7.app.AppCompatActivity;
+
+
+
+import android.content.Context;
 import android.util.Log;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
+
+
 
 
 /**
  * Class for saving the route
  */
 
-public class SaveTripActivity extends AppCompatActivity {
+public class SaveTripClass {
     Trip tripToSave;
-    SQLiteHelper SQLiteHelper = new SQLiteHelper(this);
+    SQLiteHelper helper;
+    Context c;
+
+
+
 
     /**
      * Constructor
      * @param inputTrip : The route to be input
      */
-    public SaveTripActivity(Trip inputTrip){
+    public SaveTripClass(Trip inputTrip, Context c){
 
         tripToSave = inputTrip;
+        this.c = c;
+        helper = new SQLiteHelper(c);
     }
 
     /**
@@ -31,7 +42,7 @@ public class SaveTripActivity extends AppCompatActivity {
 
 
         if(tripToSave.getIndex() > 0) {
-            SQLiteHelper.addTrip(tripToSave);
+            helper.addTrip(tripToSave);
         }
 
 
@@ -49,7 +60,7 @@ public class SaveTripActivity extends AppCompatActivity {
 
         try {
 
-            allJourneys = SQLiteHelper.getAllJourneys();
+            allJourneys = helper.getAllJourneys();
 
             int allJourneysSize = allJourneys.size();
             int ID;
@@ -96,7 +107,7 @@ public class SaveTripActivity extends AppCompatActivity {
         try {
 
 
-            ArrayList<Route> allRoutes = SQLiteHelper.getAllRoutesInJourney(Integer.parseInt(ID));
+            ArrayList<Route> allRoutes = helper.getAllRoutesInJourney(Integer.parseInt(ID));
             int allRoutesSize = allRoutes.size();
             int routeID;
             String routeName;
@@ -131,7 +142,12 @@ public class SaveTripActivity extends AppCompatActivity {
      * @param destination : The destination of the journey
      */
     public void setNewJourney(String origin, String destination){
-        //TODO Set a new journey with the name given
+
+        Journey journey = new Journey();
+        journey.setDestination(destination);
+        journey.setOrigin(origin);
+
+        helper.addJourney(journey);
     }
 
     /** //TODO REMOVE THIS
