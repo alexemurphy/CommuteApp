@@ -88,9 +88,7 @@ public class SaveTripClass {
                 destination = allJourneys.get(i).getDestination();
                 ArrayList<String> currentJourneyInfo = new ArrayList<>();
                 currentJourneyInfo.add(0, Integer.toString(ID));
-                currentJourneyInfo.add(1, origin);
-                currentJourneyInfo.add(2, destination);
-
+                currentJourneyInfo.add(1, origin + " > "  + destination);
                 journeyNames.add(currentJourneyInfo);
 
             }
@@ -170,20 +168,20 @@ public class SaveTripClass {
      * @param name : The name of the route
      * @param transportMethod : The method of transport of the route
      */
-    public void setNewRoute(String name, String transportMethod){
+    public void setNewRoute(String name, String transportMethod, int id){
         //TODO Set a new trip with the name given
-        Log.d("setNewRoute", "Name: " + name + " Transport Method: " + transportMethod);
+
+        Route route = new Route();
+        route.setName(name);
+        route.setTransportType(transportMethod);
+        route.setJourneyID(id);
+
+        helper.addRoute(route);
+        Log.d("setNewRoute", "ID: " + id + "Name: " + name + " Transport Method: " + transportMethod);
+
     }
 
-    /**
-     * Checks whether the route name has been used before
-     *
-     * @param routeName : The name of the route
-     * @return : True if has been used, false if the name has not been used
-     */
-    public boolean checkRouteNameExists(String routeName){
-        return false;
-    }
+
 
     /**
      * Delete the journey via its ID
@@ -191,7 +189,9 @@ public class SaveTripClass {
      * @param journeyID
      */
     public void deleteJourney(String journeyID){
-        //TODO Delete the journey by the ID
+        Journey journey = new Journey();
+        journey.setID(Integer.parseInt(journeyID));
+        helper.deleteJourney(journey);
     }
 
     /**

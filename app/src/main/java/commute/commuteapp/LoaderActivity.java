@@ -20,7 +20,7 @@ public class LoaderActivity extends AppCompatActivity {
     ArrayList<Journey> journeyList = new ArrayList<>();
 
     //Database Access
-    SaveTripActivity dbAccess = new SaveTripActivity();
+    SaveTripClass dbAccess;
 
     //Journey Table
     TableLayout journeyTable;
@@ -106,14 +106,7 @@ public class LoaderActivity extends AppCompatActivity {
         //Get All Journeys [[ID, Origin, Destination], ...]
         allJourneys = dbAccess.getJourneyList();
 
-        //TODO REMOVE THIS
-        ArrayList<String> f = new ArrayList<>();
-        f.add("1");f.add("Home");f.add("Work");
-        allJourneys.add(f);
-        //TODO REMOVE END
-        for(int i = 0; i < allJourneys.size(); i++){
-            addNewJourney(allJourneys.get(i));
-        }
+
     }
 
 

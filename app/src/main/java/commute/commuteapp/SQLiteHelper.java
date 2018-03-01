@@ -11,6 +11,7 @@ package commute.commuteapp;
 
 import android.content.Context;
 import android.content.ContentValues;
+import android.database.CursorIndexOutOfBoundsException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.Cursor;
@@ -140,14 +141,18 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         Getting the ID for the next trip to be added for the filename
         1. build the query
         */
-        String query = "SELECT * FROM " + TABLE_TRIP +" ORDER BY column DESC LIMIT 1";
+        String query = "SELECT * FROM trip ORDER BY id DESC LIMIT 1";
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
-        trip.setID(Integer.parseInt(cursor.getString(0)) + 1);
-
+        try{
+            trip.setID(Integer.parseInt(cursor.getString(0)) + 1);
+        }
+        catch(CursorIndexOutOfBoundsException e){
+            trip.setID(1);
+        }
 
         //Saving LatandLangs to file.
 

@@ -57,9 +57,11 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     SaveTripClass saveTrip;
 
     //Journeys and routes list
-    ArrayList<ArrayList<String>> journeys;
+    ArrayList<ArrayList<String>>  journeys;
     ArrayList<ArrayList<String>> routes;
     private String spinnerResult = "car";
+
+    String journeyID = new String();
 
 
 
@@ -332,12 +334,12 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
             @Override
             public void onClick(View view){
                 //Set the routes compared to the journey
-                String ID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-                setRoutes(ID);
+                journeyID = getIDFromName(journeys, ((Spinner)findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
+                setRoutes(journeyID);
             }
         });
 
-        //Setup new journey button
+        //Setup new route button
         final Button newRoute = findViewById(R.id.newRoute);
         newRoute.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -390,7 +392,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
     private String getIDFromName(ArrayList<ArrayList<String>> mainList, String target){
         for(int i = 0; i < mainList.size(); i++){
             if(mainList.get(i).get(1).equals(target)){
-                return mainList.get(i).get(1);
+                return mainList.get(i).get(0);
             }
         }
         return null;
@@ -475,7 +477,9 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
                     throwWarningMessage("Invalid Route Name Provided!");
                 }
                 else {
-                    saveTrip.setNewRoute(routeName, ((Spinner) findViewById(R.id.spinner_transport_method)).getSelectedItem().toString());
+
+                    saveTrip.setNewRoute(routeName, ((Spinner) findViewById(R.id.spinner_transport_method)).getSelectedItem().toString(), Integer.parseInt(journeyID));
+                    setRoutes(journeyID);
                     saveMenuSetup();
                 }
             }
@@ -494,7 +498,7 @@ public class TrackRouteActivity extends AppCompatActivity implements OnMapReadyC
         String ID;
         try {
             ID = getIDFromName(journeys, ((Spinner) findViewById(R.id.journeyDropdown)).getSelectedItem().toString());
-            trackedTrip.setJourneyID(new Integer(ID)); //TODO THIS NEEDS TO GO -AM
+            trackedTrip.setJourneyID(new Integer(ID));
         }
         catch(Exception e){
             throwWarningMessage("No Journey Name Set");
