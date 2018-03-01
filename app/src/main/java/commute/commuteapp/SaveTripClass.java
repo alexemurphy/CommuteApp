@@ -21,8 +21,10 @@ public class SaveTripClass {
     SQLiteHelper helper;
     Context c;
 
-
-
+    /**
+     * Empty Constructor
+     */
+    public SaveTripClass(){}
 
     /**
      * Constructor
@@ -119,7 +121,7 @@ public class SaveTripClass {
         try {
 
 
-            ArrayList<Route> allRoutes = helper.getAllRoutesInJourney(Integer.parseInt(ID));
+            ArrayList<Route> allRoutes = helper.getAllRoutesInJourney(ID);
             int allRoutesSize = allRoutes.size();
             int routeID;
             String routeName;
@@ -171,6 +173,7 @@ public class SaveTripClass {
     public void setNewRoute(String name, String transportMethod, int id){
         //TODO Set a new trip with the name given
 
+<<<<<<< HEAD
         Route route = new Route();
         route.setName(name);
         route.setTransportType(transportMethod);
@@ -183,6 +186,8 @@ public class SaveTripClass {
 
 
 
+=======
+>>>>>>> daf82e054f006d23bb1eae319dca683620451219
     /**
      * Delete the journey via its ID
      *

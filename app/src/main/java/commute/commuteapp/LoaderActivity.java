@@ -17,16 +17,25 @@ import java.util.ArrayList;
 
 
 public class LoaderActivity extends AppCompatActivity {
-    ArrayList<Journey> journeyList = new ArrayList<>();
 
     //Database Access
+<<<<<<< HEAD
     SaveTripClass dbAccess;
+=======
+    SaveTripClass dbAccess = new SaveTripClass();
+>>>>>>> daf82e054f006d23bb1eae319dca683620451219
 
     //Journey Table
     TableLayout journeyTable;
     boolean journeyTableEdit = false;
     ArrayList<ArrayList<String>> allJourneys;
     ArrayList<String> selectedJourney;
+
+    //Route Table
+    TableLayout routeTable;
+    boolean routeTableEdit = false;
+    ArrayList<ArrayList<String>> allRoutes;
+    ArrayList<String> selectedRoute;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,7 +103,7 @@ public class LoaderActivity extends AppCompatActivity {
         });
 
         //Edit Button
-        Button edit = findViewById(R.id.edit);
+        Button edit = findViewById(R.id.editButton);
         edit.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -104,9 +113,20 @@ public class LoaderActivity extends AppCompatActivity {
         });
 
         //Get All Journeys [[ID, Origin, Destination], ...]
+        //TODO For some reason this doesn't work, but it does for TrackRouteActivity which does basically the same thing??!?!?!?!
         allJourneys = dbAccess.getJourneyList();
 
+<<<<<<< HEAD
 
+=======
+        Log.d("All Journeys", "Starting");
+
+        for(int i = 0; i < allJourneys.size(); i++){
+            Log.d("All Journeys", allJourneys.get(i).get(0) + " -> " + allJourneys.get(i).get(2));
+            addNewJourney(allJourneys.get(i));
+        }
+        Log.d("All Journeys", "DONE");
+>>>>>>> daf82e054f006d23bb1eae319dca683620451219
     }
 
 
@@ -209,7 +229,7 @@ public class LoaderActivity extends AppCompatActivity {
             }
         });
 
-        //Back button
+        //Delete button
         Button delete = findViewById(R.id.btnDelete);
         delete.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -221,7 +241,7 @@ public class LoaderActivity extends AppCompatActivity {
             }
         });
 
-        //Back button
+        //Save button
         Button save = findViewById(R.id.btnSaveJourney2);
         save.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -239,5 +259,96 @@ public class LoaderActivity extends AppCompatActivity {
         Log.d("Route Init", journeyID);
         //Set the layout to be the load route GUI
         setContentView(R.layout.activity_loadroute);
+
+        routeTable = findViewById(R.id.routeTable);
+
+        //Back Button
+        Button back = findViewById(R.id.backButtonRoute);
+
+        back.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                returnToMain();
+            }
+        });
+
+        //Edit Button
+        Button edit = findViewById(R.id.editButtonRoute);
+        edit.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                routeTable = toggleEditButtons(routeTable, routeTableEdit);
+                routeTableEdit = !routeTableEdit;
+            }
+        });
+
+        //Get All Journeys [[ID, Origin, Destination], ...]
+        allRoutes = dbAccess.getRouteList(journeyID);
+
+        //TODO REMOVE THIS
+        ArrayList<String> f = new ArrayList<>();
+        f.add("1");f.add("Home");f.add("Work");
+        allRoutes.add(f);
+        //TODO REMOVE END
+        for(int i = 0; i < allRoutes.size(); i++){
+            addNewRoute(allRoutes.get(i));
+        }
     }
+
+    /**
+     * Add a new route to the table
+     *
+     * @param routeToAdd : The route to add to the table as an array
+     */
+    private void addNewRoute(ArrayList<String> routeToAdd){
+        TableRow row = new TableRow(this);
+
+        //Delete Button
+        Button btn = new Button(this);
+        //Add the tag & add the ID to the end to get when the button is pressed
+        btn.setTag("btnEdit" + routeToAdd.get(0));
+        btn.setText("Edit");
+        btn.setBackgroundColor(Color.parseColor("#3582ff"));
+        btn.setLayoutParams(new TableRow.LayoutParams(200, 150, 1));
+        btn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                editRoute(view.getTag().toString().replace("btnEdit", ""));
+            }
+        });
+        btn.setVisibility(View.GONE);
+        row.addView(btn);
+
+        //Text
+        TextView routeName = new TextView(this);
+        routeName.setTag("txtName");
+        routeName.setText(routeToAdd.get(1) + " -> " + routeToAdd.get(2));
+        routeName.setLayoutParams(new TableRow.LayoutParams(150, 150, 10));
+        routeName.setTextColor(Color.parseColor("#000000"));
+        routeName.setGravity(Gravity.CENTER);
+        row.addView(routeName);
+
+        //View Button
+        Button btnView = new Button(this);
+        btnView.setTag("btnView" + routeToAdd.get(0));
+        btnView.setText("View");
+        btnView.setLayoutParams(new TableRow.LayoutParams(200, 150, 1));
+        btnView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                //Get the ID of the selected journey from the tag & send it to the route
+                tripInit(view.getTag().toString().replace("btnView", ""));
+            }
+        });
+        row.addView(btnView);
+
+        journeyTable.addView(row);
+
+    }
+
+    private void editRoute(String h){}
+
+    //----------------------------------------Route GUI----------------------------------------
+    private void tripInit(String h){}
+
 }
